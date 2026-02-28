@@ -3,10 +3,10 @@ import { GuestStatsComponent } from './guest-stats/guest-stats.component';
 import { GuestTableComponent } from './guest-table/guest-table.component';
 
 @Component({
-  selector: 'app-guest-list',
+  selector: 'app-guest',
   changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [GuestStatsComponent, GuestTableComponent],
-  templateUrl: './guest-list.component.html',
-  styleUrl: './guest-list.component.scss',
+  templateUrl: './guest.component.html',
+  styleUrl: './guest.component.scss',
 })
-export class GuestListComponent {}
+export class GuestComponent {}

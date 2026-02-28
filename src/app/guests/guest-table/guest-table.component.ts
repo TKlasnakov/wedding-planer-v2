@@ -14,7 +14,7 @@ import { GuestService } from '../services/guest.service';
 import { GuestFilterService } from '../services/guest-filter.service';
 import { GuestFormComponent } from '../guest-form/guest-form.component';
 import { ConfirmDialogComponent } from '../../shared/confirm-dialog/confirm-dialog.component';
-import { GUEST_DISPLAYED_COLUMNS } from '../guest-list.constants';
+import { GUEST_DISPLAYED_COLUMNS } from '../guest.constants';
 
 @Component({
   selector: 'app-guest-table',

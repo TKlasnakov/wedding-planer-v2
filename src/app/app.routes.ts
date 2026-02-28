@@ -9,7 +9,7 @@ export const routes: Routes = [
   {
     path: 'guests',
     loadComponent: () =>
-      import('./guests/guest-list.component').then(m => m.GuestListComponent),
+      import('./guests/guest.component').then(m => m.GuestComponent),
   },
   {
     path: 'tables',
@@ -24,7 +24,7 @@ export const routes: Routes = [
   {
     path: 'rsvp/:id',
     loadComponent: () =>
-      import('./guests/rsvp-page/rsvp-page.component').then(m => m.RsvpPageComponent),
+      import('./rsvp/rsvp-page.component').then(m => m.RsvpPageComponent),
   },
   {
     path: '**',

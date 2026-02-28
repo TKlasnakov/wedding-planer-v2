@@ -14,11 +14,11 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatIconModule } from '@angular/material/icon';
 import { MatInputModule } from '@angular/material/input';
 import { MatSelectModule } from '@angular/material/select';
-import { GuestService } from '../services/guest.service';
-import { Guest } from '../models/guest.model';
-import { DietaryRestriction } from '../models/dietary-restriction.model';
-import { RsvpStatus } from '../models/rsvp-status.model';
-import { DIETARY_OPTIONS, RSVP_OPTIONS } from '../guest-form/guest-form.constants';
+import { GuestService } from '../guests/services/guest.service';
+import { Guest } from '../guests/models/guest.model';
+import { DietaryRestriction } from '../guests/models/dietary-restriction.model';
+import { RsvpStatus } from '../guests/models/rsvp-status.model';
+import { DIETARY_OPTIONS, RSVP_OPTIONS } from '../guests/guest-form/guest-form.constants';
 
 @Component({
   selector: 'app-rsvp-page',
