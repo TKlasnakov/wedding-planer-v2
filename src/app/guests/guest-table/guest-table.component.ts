@@ -48,7 +48,7 @@ export class GuestTableComponent {
     this.dialog
       .open(GuestFormComponent, { data: null, width: '600px', maxWidth: '95vw' })
       .afterClosed()
-      .subscribe(result => {
+      .subscribe((result) => {
         if (!result) return;
         this.guestService.addGuest(result);
         this.snackBar.open('Guest added!', 'Close', { duration: 3000 });
@@ -59,7 +59,7 @@ export class GuestTableComponent {
     this.dialog
       .open(GuestFormComponent, { data: guest, width: '600px', maxWidth: '95vw' })
       .afterClosed()
-      .subscribe(result => {
+      .subscribe((result) => {
         if (!result) return;
         this.guestService.updateGuest(guest.id, result);
         this.snackBar.open('Guest updated!', 'Close', { duration: 3000 });
@@ -76,7 +76,7 @@ export class GuestTableComponent {
         },
       })
       .afterClosed()
-      .subscribe(confirmed => {
+      .subscribe((confirmed) => {
         if (!confirmed) return;
         this.guestService.deleteGuest(guest.id);
         this.snackBar.open('Guest removed.', 'Close', { duration: 3000 });
