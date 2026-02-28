@@ -25,6 +25,7 @@ import { GuestService } from '../services/guest.service';
 import { GuestFilterService } from '../services/guest-filter.service';
 import { GuestFormComponent } from '../guest-form/guest-form.component';
 import { ConfirmDialogComponent } from '../../shared/confirm-dialog/confirm-dialog.component';
+import { StatCardComponent } from '../../shared/stat-card/stat-card.component';
 import { GUEST_DISPLAYED_COLUMNS, GUEST_STATUS_OPTIONS } from './guest-list.constants';
 
 @Component({
@@ -43,6 +44,7 @@ import { GUEST_DISPLAYED_COLUMNS, GUEST_STATUS_OPTIONS } from './guest-list.cons
     MatTooltipModule,
     MatCardModule,
     MatSelectModule,
+    StatCardComponent,
   ],
   templateUrl: './guest-list.component.html',
   styleUrl: './guest-list.component.scss',

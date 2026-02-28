@@ -1,0 +1,21 @@
+<mat-card class="stat-card" [style.border-top-color]="borderColor">
+  <mat-card-content>
+    <div class="stat-number">
+      @if (currencyCode) {
+        {{ value | currency: currencyCode : 'symbol' : '1.0-0' }}
+      } @else {
+        {{ value }}
+      }
+    </div>
+    @if (actionIcon) {
+      <div class="stat-footer">
+        <span class="stat-label">{{ label }}</span>
+        <button mat-icon-button class="action-btn" [matTooltip]="actionTooltip" (click)="actionClick.emit()">
+          <mat-icon>{{ actionIcon }}</mat-icon>
+        </button>
+      </div>
+    } @else {
+      <div class="stat-label">{{ label }}</div>
+    }
+  </mat-card-content>
+</mat-card>

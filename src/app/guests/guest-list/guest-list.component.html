@@ -2,36 +2,11 @@
 
   <!-- Stats -->
   <div class="stats-row">
-    <mat-card class="stat-card">
-      <mat-card-content>
-        <div class="stat-number">{{ filterService.totalGuests() }}</div>
-        <div class="stat-label">Total Guests</div>
-      </mat-card-content>
-    </mat-card>
-    <mat-card class="stat-card confirmed">
-      <mat-card-content>
-        <div class="stat-number">{{ filterService.confirmedCount() }}</div>
-        <div class="stat-label">Confirmed</div>
-      </mat-card-content>
-    </mat-card>
-    <mat-card class="stat-card pending">
-      <mat-card-content>
-        <div class="stat-number">{{ filterService.pendingCount() }}</div>
-        <div class="stat-label">Pending</div>
-      </mat-card-content>
-    </mat-card>
-    <mat-card class="stat-card declined">
-      <mat-card-content>
-        <div class="stat-number">{{ filterService.declinedCount() }}</div>
-        <div class="stat-label">Declined</div>
-      </mat-card-content>
-    </mat-card>
-    <mat-card class="stat-card attendees">
-      <mat-card-content>
-        <div class="stat-number">{{ filterService.totalAttendees() }}</div>
-        <div class="stat-label">Total Attendees</div>
-      </mat-card-content>
-    </mat-card>
+    <app-stat-card [value]="filterService.totalGuests()" label="Total Guests" />
+    <app-stat-card [value]="filterService.confirmedCount()" label="Confirmed" borderColor="#4caf50" />
+    <app-stat-card [value]="filterService.pendingCount()" label="Pending" borderColor="#ff9800" />
+    <app-stat-card [value]="filterService.declinedCount()" label="Declined" borderColor="#f44336" />
+    <app-stat-card [value]="filterService.totalAttendees()" label="Total Attendees" borderColor="#9c27b0" />
   </div>
 
   <!-- Table -->

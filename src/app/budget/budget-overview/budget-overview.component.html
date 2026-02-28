@@ -1,71 +1,39 @@
 <div class="budget-container">
   <!-- Summary Cards -->
   <div class="stats-row">
-    <!-- Total Budget -->
-    <mat-card class="stat-card budget">
-      <mat-card-content>
-        <div class="stat-number">
-          {{ budgetService.totalBudget() | currency: 'EUR' : 'symbol' : '1.0-0' }}
-        </div>
-        <div class="stat-footer">
-          <span class="stat-label">Total Budget</span>
-          <button
-            mat-icon-button
-            class="edit-budget-btn"
-            (click)="openSetBudget()"
-            matTooltip="Set budget"
-          >
-            <mat-icon>edit</mat-icon>
-          </button>
-        </div>
-      </mat-card-content>
-    </mat-card>
-
-    <!-- Estimated -->
-    <mat-card class="stat-card estimated">
-      <mat-card-content>
-        <div class="stat-number">
-          {{ budgetService.totalEstimated() | currency: 'EUR' : 'symbol' : '1.0-0' }}
-        </div>
-        <div class="stat-label">Estimated</div>
-      </mat-card-content>
-    </mat-card>
-
-    <!-- Actual -->
-    <mat-card class="stat-card actual">
-      <mat-card-content>
-        <div class="stat-number">
-          {{ budgetService.totalActual() | currency: 'EUR' : 'symbol' : '1.0-0' }}
-        </div>
-        <div class="stat-label">Actual</div>
-      </mat-card-content>
-    </mat-card>
-
-    <!-- Paid -->
-    <mat-card class="stat-card paid">
-      <mat-card-content>
-        <div class="stat-number">
-          {{ budgetService.totalPaid() | currency: 'EUR' : 'symbol' : '1.0-0' }}
-        </div>
-        <div class="stat-label">Paid</div>
-      </mat-card-content>
-    </mat-card>
-
-    <!-- Remaining -->
-    <mat-card
-      class="stat-card"
-      [class.remaining-positive]="budgetService.remaining() >= 0"
-      [class.remaining-negative]="budgetService.remaining() < 0"
-    >
-      <mat-card-content>
-        <div class="stat-number">
-          {{ budgetService.remaining() | currency: 'EUR' : 'symbol' : '1.0-0' }}
-        </div>
-        <div class="stat-label">
-          {{ budgetService.remaining() >= 0 ? 'Remaining' : 'Over Budget' }}
-        </div>
-      </mat-card-content>
-    </mat-card>
+    <app-stat-card
+      [value]="budgetService.totalBudget()"
+      label="Total Budget"
+      borderColor="#c2185b"
+      currencyCode="EUR"
+      actionIcon="edit"
+      actionTooltip="Set budget"
+      (actionClick)="openSetBudget()"
+    />
+    <app-stat-card
+      [value]="budgetService.totalEstimated()"
+      label="Estimated"
+      borderColor="#f9a825"
+      currencyCode="EUR"
+    />
+    <app-stat-card
+      [value]="budgetService.totalActual()"
+      label="Actual"
+      borderColor="#ef6c00"
+      currencyCode="EUR"
+    />
+    <app-stat-card
+      [value]="budgetService.totalPaid()"
+      label="Paid"
+      borderColor="#2e7d32"
+      currencyCode="EUR"
+    />
+    <app-stat-card
+      [value]="budgetService.remaining()"
+      [label]="budgetService.remaining() >= 0 ? 'Remaining' : 'Over Budget'"
+      [borderColor]="budgetService.remaining() >= 0 ? '#2e7d32' : '#c62828'"
+      currencyCode="EUR"
+    />
   </div>
 
   <!-- Expenses Table -->

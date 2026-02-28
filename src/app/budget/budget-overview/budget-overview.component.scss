@@ -20,60 +20,6 @@
   }
 }
 
-.stat-card {
-  text-align: center;
-  border-top: 4px solid #bdbdbd;
-
-  &.budget    { border-top-color: #c2185b; }
-  &.estimated { border-top-color: #f9a825; }
-  &.actual    { border-top-color: #ef6c00; }
-  &.paid      { border-top-color: #2e7d32; }
-
-  &.remaining-positive { border-top-color: #2e7d32; }
-  &.remaining-negative { border-top-color: #c62828; }
-
-  .stat-number {
-    font-size: 1.6rem;
-    font-weight: 600;
-    line-height: 1;
-    margin-bottom: 4px;
-  }
-
-  .stat-label {
-    font-size: 0.75rem;
-    color: #555555;
-    text-transform: uppercase;
-    letter-spacing: 0.5px;
-  }
-
-  .stat-footer {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    gap: 4px;
-
-    .stat-label {
-      margin: 0;
-    }
-  }
-
-  .edit-budget-btn {
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-    width: 24px;
-    height: 24px;
-    padding: 0;
-
-    mat-icon {
-      font-size: 16px;
-      width: 16px;
-      height: 16px;
-      line-height: 16px;
-      color: #888;
-    }
-  }
-}
 
 // Table card
 .table-card {

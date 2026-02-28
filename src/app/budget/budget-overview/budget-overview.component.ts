@@ -5,7 +5,6 @@ import {
   inject,
   signal,
 } from '@angular/core';
-import { CurrencyPipe } from '@angular/common';
 import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
 import { FormsModule } from '@angular/forms';
 import { MatButtonModule } from '@angular/material/button';
@@ -22,6 +21,7 @@ import { BudgetService } from '../services/budget.service';
 import { ExpenseFormComponent, ExpenseFormData } from '../expense-form/expense-form.component';
 import { SetBudgetDialogComponent, SetBudgetDialogData } from '../set-budget-dialog/set-budget-dialog.component';
 import { ConfirmDialogComponent, ConfirmDialogData } from '../../shared/confirm-dialog/confirm-dialog.component';
+import { StatCardComponent } from '../../shared/stat-card/stat-card.component';
 import { Expense } from '../models/expense.model';
 import { BudgetCategory } from '../models/budget-category.model';
 
@@ -29,7 +29,6 @@ import { BudgetCategory } from '../models/budget-category.model';
   selector: 'app-budget-overview',
   changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [
-    CurrencyPipe,
     FormsModule,
     ReactiveFormsModule,
     MatButtonModule,
@@ -41,6 +40,7 @@ import { BudgetCategory } from '../models/budget-category.model';
     MatSelectModule,
     MatTableModule,
     MatTooltipModule,
+    StatCardComponent,
   ],
   templateUrl: './budget-overview.component.html',
   styleUrl: './budget-overview.component.scss',
