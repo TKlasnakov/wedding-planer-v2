@@ -1,0 +1,15 @@
+<h2 mat-dialog-title>Set Total Budget</h2>
+<mat-dialog-content>
+  <form [formGroup]="data.form" class="set-budget-form">
+    <mat-form-field appearance="outline">
+      <mat-label>Total Budget (€)</mat-label>
+      <input matInput type="number" formControlName="amount" min="0" />
+    </mat-form-field>
+  </form>
+</mat-dialog-content>
+<mat-dialog-actions align="end">
+  <button mat-button mat-dialog-close>Cancel</button>
+  <button mat-raised-button color="primary" [disabled]="data.form.invalid" (click)="save()">
+    Save
+  </button>
+</mat-dialog-actions>

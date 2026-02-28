@@ -1,15 +1,20 @@
 <div class="budget-container">
-
   <!-- Summary Cards -->
   <div class="stats-row">
-
     <!-- Total Budget -->
     <mat-card class="stat-card budget">
       <mat-card-content>
-        <div class="stat-number">{{ budgetService.totalBudget() | currency:'EUR':'symbol':'1.0-0' }}</div>
+        <div class="stat-number">
+          {{ budgetService.totalBudget() | currency: 'EUR' : 'symbol' : '1.0-0' }}
+        </div>
         <div class="stat-footer">
           <span class="stat-label">Total Budget</span>
-          <button mat-icon-button class="edit-budget-btn" (click)="openSetBudget()" matTooltip="Set budget">
+          <button
+            mat-icon-button
+            class="edit-budget-btn"
+            (click)="openSetBudget()"
+            matTooltip="Set budget"
+          >
             <mat-icon>edit</mat-icon>
           </button>
         </div>
@@ -19,7 +24,9 @@
     <!-- Estimated -->
     <mat-card class="stat-card estimated">
       <mat-card-content>
-        <div class="stat-number">{{ budgetService.totalEstimated() | currency:'EUR':'symbol':'1.0-0' }}</div>
+        <div class="stat-number">
+          {{ budgetService.totalEstimated() | currency: 'EUR' : 'symbol' : '1.0-0' }}
+        </div>
         <div class="stat-label">Estimated</div>
       </mat-card-content>
     </mat-card>
@@ -27,7 +34,9 @@
     <!-- Actual -->
     <mat-card class="stat-card actual">
       <mat-card-content>
-        <div class="stat-number">{{ budgetService.totalActual() | currency:'EUR':'symbol':'1.0-0' }}</div>
+        <div class="stat-number">
+          {{ budgetService.totalActual() | currency: 'EUR' : 'symbol' : '1.0-0' }}
+        </div>
         <div class="stat-label">Actual</div>
       </mat-card-content>
     </mat-card>
@@ -35,19 +44,28 @@
     <!-- Paid -->
     <mat-card class="stat-card paid">
       <mat-card-content>
-        <div class="stat-number">{{ budgetService.totalPaid() | currency:'EUR':'symbol':'1.0-0' }}</div>
+        <div class="stat-number">
+          {{ budgetService.totalPaid() | currency: 'EUR' : 'symbol' : '1.0-0' }}
+        </div>
         <div class="stat-label">Paid</div>
       </mat-card-content>
     </mat-card>
 
     <!-- Remaining -->
-    <mat-card class="stat-card" [class.remaining-positive]="budgetService.remaining() >= 0" [class.remaining-negative]="budgetService.remaining() < 0">
+    <mat-card
+      class="stat-card"
+      [class.remaining-positive]="budgetService.remaining() >= 0"
+      [class.remaining-negative]="budgetService.remaining() < 0"
+    >
       <mat-card-content>
-        <div class="stat-number">{{ budgetService.remaining() | currency:'EUR':'symbol':'1.0-0' }}</div>
-        <div class="stat-label">{{ budgetService.remaining() >= 0 ? 'Remaining' : 'Over Budget' }}</div>
+        <div class="stat-number">
+          {{ budgetService.remaining() | currency: 'EUR' : 'symbol' : '1.0-0' }}
+        </div>
+        <div class="stat-label">
+          {{ budgetService.remaining() >= 0 ? 'Remaining' : 'Over Budget' }}
+        </div>
       </mat-card-content>
     </mat-card>
-
   </div>
 
   <!-- Expenses Table -->
@@ -75,45 +93,45 @@
 
     <mat-card-content>
       <div class="table-wrapper">
-        <table mat-table [dataSource]="dataSource" matSort>
-
+        <table mat-table [dataSource]="filteredExpenses()">
           <!-- Category -->
           <ng-container matColumnDef="category">
-            <th mat-header-cell *matHeaderCellDef mat-sort-header>Category</th>
+            <th mat-header-cell *matHeaderCellDef>Category</th>
             <td mat-cell *matCellDef="let expense">
               <span
                 class="category-chip"
                 [style.background-color]="getCategoryColor(expense.categoryId)"
-              >{{ getCategoryName(expense.categoryId) }}</span>
+                >{{ getCategoryName(expense.categoryId) }}</span
+              >
             </td>
           </ng-container>
 
           <!-- Name -->
           <ng-container matColumnDef="name">
-            <th mat-header-cell *matHeaderCellDef mat-sort-header>Item</th>
+            <th mat-header-cell *matHeaderCellDef>Item</th>
             <td mat-cell *matCellDef="let expense" class="name-cell">{{ expense.name }}</td>
           </ng-container>
 
           <!-- Vendor -->
           <ng-container matColumnDef="vendor">
-            <th mat-header-cell *matHeaderCellDef mat-sort-header>Vendor</th>
+            <th mat-header-cell *matHeaderCellDef>Vendor</th>
             <td mat-cell *matCellDef="let expense">{{ expense.vendor || '—' }}</td>
           </ng-container>
 
           <!-- Estimated Cost -->
           <ng-container matColumnDef="estimatedCost">
-            <th mat-header-cell *matHeaderCellDef mat-sort-header>Estimated</th>
+            <th mat-header-cell *matHeaderCellDef>Estimated</th>
             <td mat-cell *matCellDef="let expense">
-              {{ expense.estimatedCost | currency:'EUR':'symbol':'1.0-0' }}
+              {{ expense.estimatedCost | currency: 'EUR' : 'symbol' : '1.0-0' }}
             </td>
           </ng-container>
 
           <!-- Actual Cost -->
           <ng-container matColumnDef="actualCost">
-            <th mat-header-cell *matHeaderCellDef mat-sort-header>Actual</th>
+            <th mat-header-cell *matHeaderCellDef>Actual</th>
             <td mat-cell *matCellDef="let expense">
               @if (expense.actualCost !== null) {
-                {{ expense.actualCost | currency:'EUR':'symbol':'1.0-0' }}
+                {{ expense.actualCost | currency: 'EUR' : 'symbol' : '1.0-0' }}
               } @else {
                 <span class="no-value">—</span>
               }
@@ -139,14 +157,19 @@
               <button mat-icon-button (click)="openEditExpense(expense)" matTooltip="Edit">
                 <mat-icon>edit</mat-icon>
               </button>
-              <button mat-icon-button color="warn" (click)="deleteExpense(expense)" matTooltip="Remove">
+              <button
+                mat-icon-button
+                color="warn"
+                (click)="deleteExpense(expense)"
+                matTooltip="Remove"
+              >
                 <mat-icon>delete</mat-icon>
               </button>
             </td>
           </ng-container>
 
           <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
-          <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+          <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
 
           <tr class="mat-row" *matNoDataRow>
             <td class="no-data-cell" [attr.colspan]="displayedColumns.length">
@@ -157,5 +180,4 @@
       </div>
     </mat-card-content>
   </mat-card>
-
 </div>
