@@ -22,6 +22,11 @@ export const routes: Routes = [
       import('./budget/budget-overview/budget-overview.component').then(m => m.BudgetOverviewComponent),
   },
   {
+    path: 'rsvp/:id',
+    loadComponent: () =>
+      import('./guests/rsvp-page/rsvp-page.component').then(m => m.RsvpPageComponent),
+  },
+  {
     path: '**',
     redirectTo: 'guests',
   },

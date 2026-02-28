@@ -1,0 +1,139 @@
+<div class="rsvp-page">
+
+  <!-- Header -->
+  <div class="rsvp-header">
+    <mat-icon class="heart-icon">favorite</mat-icon>
+    <h1>Wedding RSVP</h1>
+    <p class="subtitle">We're so excited to celebrate with you!</p>
+  </div>
+
+  <!-- Guest not found -->
+  @if (!guest()) {
+    <div class="rsvp-card not-found">
+      <mat-icon class="not-found-icon">search_off</mat-icon>
+      <h2>Invitation not found</h2>
+      <p>This link doesn't match any guest on our list. Please contact us if you believe this is an error.</p>
+    </div>
+  }
+
+  <!-- Success state -->
+  @if (guest() && submitted()) {
+    <div class="rsvp-card success">
+      <mat-icon class="success-icon">check_circle</mat-icon>
+      <h2>Thank you, {{ guest()!.firstName }}!</h2>
+      <p>Your response has been saved. We look forward to celebrating with you!</p>
+    </div>
+  }
+
+  <!-- Form -->
+  @if (guest() && !submitted()) {
+    <div class="rsvp-card">
+      <h2 class="guest-greeting">Hi, {{ guest()!.firstName }} {{ guest()!.lastName }}!</h2>
+      <p class="form-intro">Please fill in your details below and let us know if you'll be joining us.</p>
+
+      <form [formGroup]="form" class="rsvp-form">
+
+        <div class="form-row">
+          <mat-form-field appearance="outline">
+            <mat-label>First Name</mat-label>
+            <input matInput formControlName="firstName" />
+            @if (form.controls.firstName.hasError('required') && form.controls.firstName.touched) {
+              <mat-error>First name is required</mat-error>
+            }
+          </mat-form-field>
+
+          <mat-form-field appearance="outline">
+            <mat-label>Last Name</mat-label>
+            <input matInput formControlName="lastName" />
+            @if (form.controls.lastName.hasError('required') && form.controls.lastName.touched) {
+              <mat-error>Last name is required</mat-error>
+            }
+          </mat-form-field>
+        </div>
+
+        <div class="form-row">
+          <mat-form-field appearance="outline">
+            <mat-label>Email</mat-label>
+            <input matInput formControlName="email" type="email" />
+            <mat-icon matSuffix>email</mat-icon>
+            @if (form.controls.email.hasError('email') && form.controls.email.touched) {
+              <mat-error>Invalid email address</mat-error>
+            }
+          </mat-form-field>
+
+          <mat-form-field appearance="outline">
+            <mat-label>Phone</mat-label>
+            <input matInput formControlName="phone" />
+            <mat-icon matSuffix>phone</mat-icon>
+          </mat-form-field>
+        </div>
+
+        <div class="form-row">
+          <mat-form-field appearance="outline">
+            <mat-label>Will you attend?</mat-label>
+            <mat-select formControlName="rsvpStatus">
+              @for (option of rsvpOptions; track option.value) {
+                <mat-option [value]="option.value">{{ option.label }}</mat-option>
+              }
+            </mat-select>
+          </mat-form-field>
+
+          <mat-form-field appearance="outline">
+            <mat-label>Dietary Restriction</mat-label>
+            <mat-select formControlName="dietaryRestriction">
+              @for (option of dietaryOptions; track option.value) {
+                <mat-option [value]="option.value">{{ option.label }}</mat-option>
+              }
+            </mat-select>
+          </mat-form-field>
+        </div>
+
+        <div class="form-row">
+          <mat-form-field appearance="outline">
+            <mat-label>Allergies</mat-label>
+            <input matInput formControlName="allergies" placeholder="e.g. nuts, dairy, shellfish..." />
+            <mat-icon matSuffix>warning_amber</mat-icon>
+          </mat-form-field>
+
+          <mat-form-field appearance="outline">
+            <mat-label>Kids under 14</mat-label>
+            <input matInput formControlName="kidsUnder14" type="number" min="0" />
+            <mat-icon matSuffix>child_care</mat-icon>
+          </mat-form-field>
+        </div>
+
+        <div class="plus-one-section">
+          <mat-checkbox formControlName="plusOne">I'm bringing a plus one</mat-checkbox>
+
+          @if (showPlusOneName()) {
+            <mat-form-field appearance="outline" class="full-width">
+              <mat-label>Plus One Name</mat-label>
+              <input matInput formControlName="plusOneName" />
+              <mat-icon matSuffix>person</mat-icon>
+            </mat-form-field>
+          }
+        </div>
+
+        <mat-form-field appearance="outline" class="full-width">
+          <mat-label>Notes</mat-label>
+          <textarea matInput formControlName="notes" rows="3" placeholder="Any special requests or notes for us..."></textarea>
+        </mat-form-field>
+
+        <div class="form-actions">
+          <button mat-raised-button color="primary" (click)="submit()">
+            <mat-icon>send</mat-icon>
+            Send RSVP
+          </button>
+        </div>
+
+      </form>
+    </div>
+  }
+
+  <div class="rsvp-footer">
+    <mat-icon>favorite</mat-icon>
+    <span>Made with love</span>
+    <mat-icon>favorite</mat-icon>
+  </div>
+
+</div>
