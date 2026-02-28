@@ -5,21 +5,21 @@ import { MatCardModule } from '@angular/material/card';
 import { MatDialog } from '@angular/material/dialog';
 import { MatIconModule } from '@angular/material/icon';
 import { MatTooltipModule } from '@angular/material/tooltip';
-import { GuestService } from '../../guests/services/guest.service';
-import { Guest } from '../../guests/models/guest.model';
-import { TableService } from '../services/table.service';
-import { Table } from '../models/table.model';
-import { TableFormComponent, TableFormData } from '../table-form/table-form.component';
-import { ConfirmDialogComponent, ConfirmDialogData } from '../../shared/confirm-dialog/confirm-dialog.component';
+import { GuestService } from '../guests/services/guest.service';
+import { Guest } from '../guests/models/guest.model';
+import { TableService } from './services/table.service';
+import { Table } from './models/table.model';
+import { TableFormComponent, TableFormData } from './table-form/table-form.component';
+import { ConfirmDialogComponent, ConfirmDialogData } from '../shared/confirm-dialog/confirm-dialog.component';
 
 @Component({
-  selector: 'app-seating-chart',
+  selector: 'app-tables',
   changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [DragDropModule, MatButtonModule, MatCardModule, MatIconModule, MatTooltipModule],
-  templateUrl: './seating-chart.component.html',
-  styleUrl: './seating-chart.component.scss',
+  templateUrl: './tables.component.html',
+  styleUrl: './tables.component.scss',
 })
-export class SeatingChartComponent {
+export class TablesComponent {
   private readonly guestService = inject(GuestService);
   private readonly tableService = inject(TableService);
   private readonly dialog = inject(MatDialog);

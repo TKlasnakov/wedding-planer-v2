@@ -9,12 +9,12 @@ export const routes: Routes = [
   {
     path: 'guests',
     loadComponent: () =>
-      import('./guests/guest-list/guest-list.component').then(m => m.GuestListComponent),
+      import('./guests/guest-list.component').then(m => m.GuestListComponent),
   },
   {
     path: 'tables',
     loadComponent: () =>
-      import('./tables/seating-chart/seating-chart.component').then(m => m.SeatingChartComponent),
+      import('./tables/tables.component').then(m => m.TablesComponent),
   },
   {
     path: 'budget',

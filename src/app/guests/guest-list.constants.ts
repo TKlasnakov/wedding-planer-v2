@@ -1,4 +1,4 @@
-import { RsvpStatus } from '../models/rsvp-status.model';
+import { RsvpStatus } from './models/rsvp-status.model';
 
 export const GUEST_DISPLAYED_COLUMNS = [
   'name',
