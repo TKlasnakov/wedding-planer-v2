@@ -1,0 +1,161 @@
+<div class="guest-list-container">
+
+  <!-- Stats -->
+  <div class="stats-row">
+    <mat-card class="stat-card">
+      <mat-card-content>
+        <div class="stat-number">{{ filterService.totalGuests() }}</div>
+        <div class="stat-label">Total Guests</div>
+      </mat-card-content>
+    </mat-card>
+    <mat-card class="stat-card confirmed">
+      <mat-card-content>
+        <div class="stat-number">{{ filterService.confirmedCount() }}</div>
+        <div class="stat-label">Confirmed</div>
+      </mat-card-content>
+    </mat-card>
+    <mat-card class="stat-card pending">
+      <mat-card-content>
+        <div class="stat-number">{{ filterService.pendingCount() }}</div>
+        <div class="stat-label">Pending</div>
+      </mat-card-content>
+    </mat-card>
+    <mat-card class="stat-card declined">
+      <mat-card-content>
+        <div class="stat-number">{{ filterService.declinedCount() }}</div>
+        <div class="stat-label">Declined</div>
+      </mat-card-content>
+    </mat-card>
+    <mat-card class="stat-card attendees">
+      <mat-card-content>
+        <div class="stat-number">{{ filterService.totalAttendees() }}</div>
+        <div class="stat-label">Total Attendees</div>
+      </mat-card-content>
+    </mat-card>
+  </div>
+
+  <!-- Table -->
+  <mat-card class="table-card">
+    <mat-card-header>
+      <mat-card-title>Guest List</mat-card-title>
+
+      <div class="header-filters">
+        <mat-form-field appearance="outline" class="search-field">
+          <mat-label>Search</mat-label>
+          <input matInput [ngModel]="filterService.searchQuery()" (ngModelChange)="onSearchChange($event)" placeholder="Name or email..." />
+          <mat-icon matSuffix>search</mat-icon>
+        </mat-form-field>
+
+        <mat-form-field appearance="outline" class="status-filter">
+          <mat-label>Status</mat-label>
+          <mat-select [ngModel]="filterService.statusFilter()" (ngModelChange)="onStatusChange($event)">
+            @for (option of statusOptions; track option.value) {
+              <mat-option [value]="option.value">{{ option.label }}</mat-option>
+            }
+          </mat-select>
+        </mat-form-field>
+      </div>
+
+      <button mat-raised-button color="primary" (click)="openAddDialog()">
+        <mat-icon>person_add</mat-icon>
+        Add Guest
+      </button>
+    </mat-card-header>
+
+    <mat-card-content>
+      <div class="table-wrapper">
+        <table mat-table [dataSource]="dataSource" matSort>
+
+          <!-- Name -->
+          <ng-container matColumnDef="name">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header>Name</th>
+            <td mat-cell *matCellDef="let guest">
+              <div class="guest-name">
+                <div class="avatar">{{ guest.firstName[0] }}{{ guest.lastName[0] }}</div>
+                <div class="full-name">{{ guest.firstName }} {{ guest.lastName }}</div>
+              </div>
+            </td>
+          </ng-container>
+
+          <!-- Email -->
+          <ng-container matColumnDef="email">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header>Email</th>
+            <td mat-cell *matCellDef="let guest">{{ guest.email || '—' }}</td>
+          </ng-container>
+
+          <!-- RSVP Status -->
+          <ng-container matColumnDef="rsvpStatus">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header>RSVP</th>
+            <td mat-cell *matCellDef="let guest">
+              <span class="status-badge status-{{ guest.rsvpStatus }}">
+                {{ guest.rsvpStatus }}
+              </span>
+            </td>
+          </ng-container>
+
+          <!-- Plus One -->
+          <ng-container matColumnDef="plusOne">
+            <th mat-header-cell *matHeaderCellDef>Plus One</th>
+            <td mat-cell *matCellDef="let guest">
+              @if (guest.plusOne) {
+                <div class="plus-one-cell">
+                  <mat-icon class="icon-yes">person_add</mat-icon>
+                  <span class="plus-one-name">{{ getPlusOneName(guest) || 'Guest' }}</span>
+                </div>
+              } @else {
+                <span class="no-plus-one">—</span>
+              }
+            </td>
+          </ng-container>
+
+          <!-- Dietary -->
+          <ng-container matColumnDef="dietaryRestriction">
+            <th mat-header-cell *matHeaderCellDef>Dietary</th>
+            <td mat-cell *matCellDef="let guest">{{ guest.dietaryRestriction }}</td>
+          </ng-container>
+
+          <!-- Allergies -->
+          <ng-container matColumnDef="allergies">
+            <th mat-header-cell *matHeaderCellDef>Allergies</th>
+            <td mat-cell *matCellDef="let guest">{{ guest.allergies || '—' }}</td>
+          </ng-container>
+
+          <!-- Kids under 14 -->
+          <ng-container matColumnDef="kidsUnder14">
+            <th mat-header-cell *matHeaderCellDef>Kids &lt;14</th>
+            <td mat-cell *matCellDef="let guest">{{ guest.kidsUnder14 || '—' }}</td>
+          </ng-container>
+
+          <!-- Table Number -->
+          <ng-container matColumnDef="tableNumber">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header>Table</th>
+            <td mat-cell *matCellDef="let guest">{{ guest.tableNumber ?? '—' }}</td>
+          </ng-container>
+
+          <!-- Actions -->
+          <ng-container matColumnDef="actions">
+            <th mat-header-cell *matHeaderCellDef></th>
+            <td mat-cell *matCellDef="let guest" class="actions-cell">
+              <button mat-icon-button (click)="openEditDialog(guest)" matTooltip="Edit">
+                <mat-icon>edit</mat-icon>
+              </button>
+              <button mat-icon-button color="warn" (click)="deleteGuest(guest)" matTooltip="Remove">
+                <mat-icon>delete</mat-icon>
+              </button>
+            </td>
+          </ng-container>
+
+          <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+          <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+
+          <tr class="mat-row" *matNoDataRow>
+            <td class="no-data-cell" [attr.colspan]="displayedColumns.length">
+              No guests found.
+            </td>
+          </tr>
+        </table>
+      </div>
+    </mat-card-content>
+  </mat-card>
+
+</div>

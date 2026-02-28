@@ -1,0 +1,89 @@
+.app-toolbar {
+  background-color: #c2185b;
+  color: white;
+  position: sticky;
+  top: 0;
+  z-index: 100;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.2);
+}
+
+.toolbar-heart {
+  margin-right: 10px;
+}
+
+.app-title {
+  font-family: 'Playfair Display', serif;
+  font-size: 1.3rem;
+  letter-spacing: 0.5px;
+}
+
+.toolbar-spacer {
+  flex: 1;
+}
+
+.wedding-date {
+  font-size: 0.875rem;
+  color: #ffffff;
+}
+
+// Layout
+.app-body {
+  display: flex;
+  height: calc(100vh - 64px);
+}
+
+.side-nav {
+  width: 200px;
+  flex-shrink: 0;
+  background-color: #ffffff;
+  border-right: 1px solid #e0e0e0;
+  padding: 16px 8px;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.nav-item {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 10px 16px;
+  border-radius: 8px;
+  text-decoration: none;
+  color: #424242;
+  font-size: 0.9375rem;
+  font-weight: 500;
+  transition: background-color 0.15s, color 0.15s;
+
+  mat-icon {
+    font-size: 20px;
+    width: 20px;
+    height: 20px;
+    color: #757575;
+    transition: color 0.15s;
+  }
+
+  &:hover {
+    background-color: #fce4ec;
+    color: #c2185b;
+
+    mat-icon {
+      color: #c2185b;
+    }
+  }
+
+  &.active {
+    background-color: #fce4ec;
+    color: #c2185b;
+    font-weight: 600;
+
+    mat-icon {
+      color: #c2185b;
+    }
+  }
+}
+
+.main-content {
+  flex: 1;
+  overflow-y: auto;
+}

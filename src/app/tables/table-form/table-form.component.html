@@ -1,0 +1,23 @@
+<h2 mat-dialog-title>{{ data.table ? 'Edit Table' : 'Add Table' }}</h2>
+<mat-dialog-content>
+  <form [formGroup]="form" class="table-form">
+    <mat-form-field appearance="outline">
+      <mat-label>Table Name</mat-label>
+      <input matInput formControlName="name" placeholder="e.g. Bridal Table" />
+    </mat-form-field>
+    <mat-form-field appearance="outline">
+      <mat-label>Table Number</mat-label>
+      <input matInput type="number" formControlName="number" min="1" />
+    </mat-form-field>
+    <mat-form-field appearance="outline">
+      <mat-label>Capacity</mat-label>
+      <input matInput type="number" formControlName="capacity" min="1" />
+    </mat-form-field>
+  </form>
+</mat-dialog-content>
+<mat-dialog-actions align="end">
+  <button mat-button mat-dialog-close>Cancel</button>
+  <button mat-raised-button color="primary" [disabled]="form.invalid" (click)="save()">
+    {{ data.table ? 'Save' : 'Add' }}
+  </button>
+</mat-dialog-actions>

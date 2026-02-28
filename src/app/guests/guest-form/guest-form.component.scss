@@ -1,0 +1,32 @@
+.guest-form {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  padding-top: 8px;
+  min-width: 520px;
+}
+
+.form-row {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 16px;
+
+  mat-form-field {
+    width: 100%;
+  }
+}
+
+.half-width {
+  width: calc(50% - 8px);
+}
+
+.full-width {
+  width: 100%;
+}
+
+.plus-one-section {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  margin-bottom: 4px;
+}

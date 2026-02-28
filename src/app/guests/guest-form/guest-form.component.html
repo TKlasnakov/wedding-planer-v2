@@ -1,0 +1,109 @@
+<h2 mat-dialog-title>{{ isEdit ? 'Edit Guest' : 'Add Guest' }}</h2>
+
+<mat-dialog-content>
+  <form [formGroup]="form" class="guest-form">
+    <div class="form-row">
+      <mat-form-field appearance="outline">
+        <mat-label>First Name</mat-label>
+        <input matInput formControlName="firstName" />
+        @if (form.controls.firstName.hasError('required') && form.controls.firstName.touched) {
+          <mat-error>First name is required</mat-error>
+        }
+        @if (form.controls.firstName.hasError('minlength') && form.controls.firstName.touched) {
+          <mat-error>Minimum 2 characters</mat-error>
+        }
+      </mat-form-field>
+
+      <mat-form-field appearance="outline">
+        <mat-label>Last Name</mat-label>
+        <input matInput formControlName="lastName" />
+        @if (form.controls.lastName.hasError('required') && form.controls.lastName.touched) {
+          <mat-error>Last name is required</mat-error>
+        }
+      </mat-form-field>
+    </div>
+
+    <div class="form-row">
+      <mat-form-field appearance="outline">
+        <mat-label>Email</mat-label>
+        <input matInput formControlName="email" type="email" />
+        <mat-icon matSuffix>email</mat-icon>
+        @if (form.controls.email.hasError('email') && form.controls.email.touched) {
+          <mat-error>Invalid email address</mat-error>
+        }
+      </mat-form-field>
+
+      <mat-form-field appearance="outline">
+        <mat-label>Phone</mat-label>
+        <input matInput formControlName="phone" />
+        <mat-icon matSuffix>phone</mat-icon>
+      </mat-form-field>
+    </div>
+
+    <div class="form-row">
+      <mat-form-field appearance="outline">
+        <mat-label>RSVP Status</mat-label>
+        <mat-select formControlName="rsvpStatus">
+          @for (option of rsvpOptions; track option.value) {
+            <mat-option [value]="option.value">{{ option.label }}</mat-option>
+          }
+        </mat-select>
+      </mat-form-field>
+
+      <mat-form-field appearance="outline">
+        <mat-label>Dietary Restriction</mat-label>
+        <mat-select formControlName="dietaryRestriction">
+          @for (option of dietaryOptions; track option.value) {
+            <mat-option [value]="option.value">{{ option.label }}</mat-option>
+          }
+        </mat-select>
+      </mat-form-field>
+    </div>
+
+    <div class="form-row">
+      <mat-form-field appearance="outline" class="half-width">
+        <mat-label>Table Number</mat-label>
+        <input matInput formControlName="tableNumber" type="number" min="1" />
+        <mat-icon matSuffix>table_restaurant</mat-icon>
+      </mat-form-field>
+    </div>
+
+    <div class="form-row">
+      <mat-form-field appearance="outline">
+        <mat-label>Allergies</mat-label>
+        <input matInput formControlName="allergies" placeholder="e.g. nuts, dairy, shellfish..." />
+        <mat-icon matSuffix>warning_amber</mat-icon>
+      </mat-form-field>
+
+      <mat-form-field appearance="outline" class="half-width">
+        <mat-label>Kids under 14</mat-label>
+        <input matInput formControlName="kidsUnder14" type="number" min="0" />
+        <mat-icon matSuffix>child_care</mat-icon>
+      </mat-form-field>
+    </div>
+
+    <div class="plus-one-section">
+      <mat-checkbox formControlName="plusOne">Bringing a plus one</mat-checkbox>
+
+      @if (showPlusOneName()) {
+        <mat-form-field appearance="outline" class="full-width">
+          <mat-label>Plus One Name</mat-label>
+          <input matInput formControlName="plusOneName" />
+          <mat-icon matSuffix>person</mat-icon>
+        </mat-form-field>
+      }
+    </div>
+
+    <mat-form-field appearance="outline" class="full-width">
+      <mat-label>Notes</mat-label>
+      <textarea matInput formControlName="notes" rows="3"></textarea>
+    </mat-form-field>
+  </form>
+</mat-dialog-content>
+
+<mat-dialog-actions align="end">
+  <button mat-button (click)="cancel()">Cancel</button>
+  <button mat-raised-button color="primary" (click)="submit()">
+    {{ isEdit ? 'Update Guest' : 'Add Guest' }}
+  </button>
+</mat-dialog-actions>
