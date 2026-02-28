@@ -1,0 +1,126 @@
+// Table card
+.table-card {
+  mat-card-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 16px;
+    padding-bottom: 16px;
+  }
+
+  mat-card-title {
+    font-size: 1.25rem;
+    margin: 0;
+  }
+}
+
+.header-filters {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.search-field {
+  width: 360px;
+}
+
+// Table
+.table-wrapper {
+  overflow-x: auto;
+}
+
+table {
+  width: 100%;
+
+  tr.mat-mdc-row:nth-child(even) {
+    background-color: #faf5f7;
+  }
+
+  tr.mat-mdc-row:hover {
+    background-color: #f3e4ea;
+  }
+}
+
+// Guest name cell
+.guest-name {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.avatar {
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  background-color: #c2185b;
+  color: white;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 0.8rem;
+  font-weight: 600;
+  flex-shrink: 0;
+  text-transform: uppercase;
+}
+
+.full-name {
+  font-weight: 500;
+}
+
+.plus-one-cell {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.plus-one-name {
+  font-size: 0.875rem;
+  font-weight: 500;
+  color: #2e7d32;
+}
+
+.no-plus-one {
+  color: #bdbdbd;
+}
+
+// Status badge
+.status-badge {
+  display: inline-block;
+  padding: 3px 10px;
+  border-radius: 12px;
+  font-size: 0.75rem;
+  font-weight: 500;
+  text-transform: capitalize;
+
+  &.status-confirmed {
+    background-color: #2e7d32;
+    color: #ffffff;
+  }
+
+  &.status-pending {
+    background-color: #e65100;
+    color: #ffffff;
+  }
+
+  &.status-declined {
+    background-color: #c62828;
+    color: #ffffff;
+  }
+}
+
+// Plus one icons
+.icon-yes { color: #2e7d32; }
+
+// Actions
+.actions-cell {
+  white-space: nowrap;
+}
+
+// No data
+.no-data-cell {
+  text-align: center;
+  padding: 48px 16px;
+  color: #616161;
+  font-style: italic;
+}

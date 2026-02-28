@@ -1,111 +1,108 @@
-<div class="seating-chart">
+<div class="chart-header">
+  <h2 class="chart-title">Seating Chart</h2>
+  <button mat-raised-button color="primary" (click)="openAddTable()">
+    <mat-icon>add</mat-icon>
+    Add Table
+  </button>
+</div>
 
-  <div class="chart-header">
-    <h2 class="chart-title">Seating Chart</h2>
-    <button mat-raised-button color="primary" (click)="openAddTable()">
-      <mat-icon>add</mat-icon>
-      Add Table
-    </button>
-  </div>
+<div class="chart-body">
 
-  <div class="chart-body">
+  <!-- Unassigned Guests -->
+  <mat-card class="unassigned-panel">
+    <mat-card-header>
+      <mat-card-title>
+        Unassigned
+        <span class="guest-count">{{ (guestsByTable().get(null) ?? []).length }}</span>
+      </mat-card-title>
+    </mat-card-header>
+    <mat-card-content>
+      <div
+        id="unassigned"
+        cdkDropList
+        [cdkDropListData]="guestsByTable().get(null) ?? []"
+        [cdkDropListConnectedTo]="allDropListIds()"
+        (cdkDropListDropped)="onDrop($event, null)"
+        class="drop-zone"
+      >
+        @for (guest of (guestsByTable().get(null) ?? []); track guest.id) {
+          <div cdkDrag [cdkDragData]="guest" class="guest-chip">
+            <div class="avatar">{{ guest.firstName[0] }}{{ guest.lastName[0] }}</div>
+            <span>{{ guest.firstName }} {{ guest.lastName }}</span>
+            @if (guest.plusOne) {
+              <span class="plus-one-tag">+1</span>
+            }
+            <mat-icon cdkDragHandle class="drag-handle">drag_indicator</mat-icon>
+          </div>
+        }
+        @if ((guestsByTable().get(null) ?? []).length === 0) {
+          <div class="empty-hint">All guests assigned</div>
+        }
+      </div>
+    </mat-card-content>
+  </mat-card>
 
-    <!-- Unassigned Guests -->
-    <mat-card class="unassigned-panel">
-      <mat-card-header>
-        <mat-card-title>
-          Unassigned
-          <span class="guest-count">{{ (guestsByTable().get(null) ?? []).length }}</span>
-        </mat-card-title>
-      </mat-card-header>
-      <mat-card-content>
-        <div
-          id="unassigned"
-          cdkDropList
-          [cdkDropListData]="guestsByTable().get(null) ?? []"
-          [cdkDropListConnectedTo]="allDropListIds()"
-          (cdkDropListDropped)="onDrop($event, null)"
-          class="drop-zone"
-        >
-          @for (guest of (guestsByTable().get(null) ?? []); track guest.id) {
-            <div cdkDrag [cdkDragData]="guest" class="guest-chip">
-              <div class="avatar">{{ guest.firstName[0] }}{{ guest.lastName[0] }}</div>
-              <span>{{ guest.firstName }} {{ guest.lastName }}</span>
-              @if (guest.plusOne) {
-                <span class="plus-one-tag">+1</span>
-              }
-              <mat-icon cdkDragHandle class="drag-handle">drag_indicator</mat-icon>
+  <!-- Tables Grid -->
+  <div class="tables-grid">
+    @if (tables().length === 0) {
+      <div class="no-tables">
+        <mat-icon>table_restaurant</mat-icon>
+        <p>No tables yet. Add one to get started.</p>
+      </div>
+    }
+
+    @for (table of tables(); track table.id) {
+      <mat-card class="table-card">
+        <mat-card-header>
+          <mat-card-title class="table-card-title">
+            <span>{{ table.name }}</span>
+            <span class="table-number-badge">#{{ table.number }}</span>
+            <div class="table-actions">
+              <button mat-icon-button (click)="openEditTable(table)" matTooltip="Edit table">
+                <mat-icon>edit</mat-icon>
+              </button>
+              <button mat-icon-button color="warn" (click)="deleteTable(table)" matTooltip="Remove table">
+                <mat-icon>delete</mat-icon>
+              </button>
             </div>
-          }
-          @if ((guestsByTable().get(null) ?? []).length === 0) {
-            <div class="empty-hint">All guests assigned</div>
-          }
-        </div>
-      </mat-card-content>
-    </mat-card>
-
-    <!-- Tables Grid -->
-    <div class="tables-grid">
-      @if (tables().length === 0) {
-        <div class="no-tables">
-          <mat-icon>table_restaurant</mat-icon>
-          <p>No tables yet. Add one to get started.</p>
-        </div>
-      }
-
-      @for (table of tables(); track table.id) {
-        <mat-card class="table-card">
-          <mat-card-header>
-            <mat-card-title class="table-card-title">
-              <span>{{ table.name }}</span>
-              <span class="table-number-badge">#{{ table.number }}</span>
-              <div class="table-actions">
-                <button mat-icon-button (click)="openEditTable(table)" matTooltip="Edit table">
-                  <mat-icon>edit</mat-icon>
-                </button>
-                <button mat-icon-button color="warn" (click)="deleteTable(table)" matTooltip="Remove table">
-                  <mat-icon>delete</mat-icon>
-                </button>
-              </div>
-            </mat-card-title>
-            <mat-card-subtitle>
-              {{ attendeeCount(guestsByTable().get(table.number) ?? []) }} / {{ table.capacity }} seats
-            </mat-card-subtitle>
-          </mat-card-header>
-          <mat-card-content>
-            <div
-              [id]="'table-' + table.id"
-              cdkDropList
-              [cdkDropListData]="guestsByTable().get(table.number) ?? []"
-              [cdkDropListConnectedTo]="allDropListIds()"
-              (cdkDropListDropped)="onDrop($event, table.number)"
-              class="drop-zone"
-              [class.full]="attendeeCount(guestsByTable().get(table.number) ?? []) >= table.capacity"
-            >
-              @for (guest of (guestsByTable().get(table.number) ?? []); track guest.id) {
-                <div cdkDrag [cdkDragData]="guest" class="guest-chip">
-                  <div class="avatar">{{ guest.firstName[0] }}{{ guest.lastName[0] }}</div>
-                  <span>{{ guest.firstName }} {{ guest.lastName }}</span>
-                  @if (guest.plusOne) {
-                    <span class="plus-one-tag">+1</span>
-                  }
-                  <mat-icon cdkDragHandle class="drag-handle">drag_indicator</mat-icon>
-                </div>
+          </mat-card-title>
+          <mat-card-subtitle>
+            {{ attendeeCount(guestsByTable().get(table.number) ?? []) }} / {{ table.capacity }} seats
+          </mat-card-subtitle>
+        </mat-card-header>
+        <mat-card-content>
+          <div
+            [id]="'table-' + table.id"
+            cdkDropList
+            [cdkDropListData]="guestsByTable().get(table.number) ?? []"
+            [cdkDropListConnectedTo]="allDropListIds()"
+            (cdkDropListDropped)="onDrop($event, table.number)"
+            class="drop-zone"
+            [class.full]="attendeeCount(guestsByTable().get(table.number) ?? []) >= table.capacity"
+          >
+            @for (guest of (guestsByTable().get(table.number) ?? []); track guest.id) {
+              <div cdkDrag [cdkDragData]="guest" class="guest-chip">
+                <div class="avatar">{{ guest.firstName[0] }}{{ guest.lastName[0] }}</div>
+                <span>{{ guest.firstName }} {{ guest.lastName }}</span>
                 @if (guest.plusOne) {
-                  <div class="guest-chip plus-one-chip">
-                    <div class="avatar plus-one-avatar">+1</div>
-                    <span>{{ guest.plusOneName || 'Plus One' }}</span>
-                  </div>
+                  <span class="plus-one-tag">+1</span>
                 }
+                <mat-icon cdkDragHandle class="drag-handle">drag_indicator</mat-icon>
+              </div>
+              @if (guest.plusOne) {
+                <div class="guest-chip plus-one-chip">
+                  <div class="avatar plus-one-avatar">+1</div>
+                  <span>{{ guest.plusOneName || 'Plus One' }}</span>
+                </div>
               }
-              @if (attendeeCount(guestsByTable().get(table.number) ?? []) === 0) {
-                <div class="empty-hint">Drop guests here</div>
-              }
-            </div>
-          </mat-card-content>
-        </mat-card>
-      }
-    </div>
-
+            }
+            @if (attendeeCount(guestsByTable().get(table.number) ?? []) === 0) {
+              <div class="empty-hint">Drop guests here</div>
+            }
+          </div>
+        </mat-card-content>
+      </mat-card>
+    }
   </div>
+
 </div>
