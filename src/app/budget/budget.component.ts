@@ -17,17 +17,17 @@ import { MatInputModule } from '@angular/material/input';
 import { MatSelectModule } from '@angular/material/select';
 import { MatTableModule } from '@angular/material/table';
 import { MatTooltipModule } from '@angular/material/tooltip';
-import { BUDGET_CATEGORIES } from '../budget.constants';
-import { BudgetService } from '../services/budget.service';
-import { ExpenseFormComponent, ExpenseFormData } from '../expense-form/expense-form.component';
-import { SetBudgetDialogComponent, SetBudgetDialogData } from '../set-budget-dialog/set-budget-dialog.component';
-import { ConfirmDialogComponent, ConfirmDialogData } from '../../shared/confirm-dialog/confirm-dialog.component';
-import { StatCardComponent } from '../../shared/stat-card/stat-card.component';
-import { Expense } from '../models/expense.model';
-import { BudgetCategory } from '../models/budget-category.model';
+import { BUDGET_CATEGORIES } from './budget.constants';
+import { BudgetService } from './services/budget.service';
+import { ExpenseFormComponent, ExpenseFormData } from './expense-form/expense-form.component';
+import { SetBudgetDialogComponent, SetBudgetDialogData } from './set-budget-dialog/set-budget-dialog.component';
+import { ConfirmDialogComponent, ConfirmDialogData } from '../shared/confirm-dialog/confirm-dialog.component';
+import { StatCardComponent } from '../shared/stat-card/stat-card.component';
+import { Expense } from './models/expense.model';
+import { BudgetCategory } from './models/budget-category.model';
 
 @Component({
-  selector: 'app-budget-overview',
+  selector: 'app-budget',
   changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [
     CurrencyPipe,
@@ -44,10 +44,10 @@ import { BudgetCategory } from '../models/budget-category.model';
     MatTooltipModule,
     StatCardComponent,
   ],
-  templateUrl: './budget-overview.component.html',
-  styleUrl: './budget-overview.component.scss',
+  templateUrl: './budget.component.html',
+  styleUrl: './budget.component.scss',
 })
-export class BudgetOverviewComponent {
+export class BudgetComponent {
   protected readonly budgetService = inject(BudgetService);
   private readonly dialog = inject(MatDialog);
   private readonly fb = inject(FormBuilder);

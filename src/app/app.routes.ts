@@ -19,7 +19,7 @@ export const routes: Routes = [
   {
     path: 'budget',
     loadComponent: () =>
-      import('./budget/budget-overview/budget-overview.component').then(m => m.BudgetOverviewComponent),
+      import('./budget/budget.component').then(m => m.BudgetComponent),
   },
   {
     path: 'rsvp/:id',
