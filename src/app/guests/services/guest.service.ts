@@ -1,5 +1,6 @@
 import { Injectable, inject, signal } from '@angular/core';
 import { Guest } from '../models/guest.model';
+import { RsvpStatus } from '../models/rsvp-status.model';
 import { StorageService } from '../../shared/services/storage.service';
 
 @Injectable({ providedIn: 'root' })
@@ -44,7 +45,7 @@ export class GuestService {
         lastName: 'Johnson',
         email: 'alice@example.com',
         phone: '+1 555-0101',
-        rsvpStatus: 'confirmed',
+        rsvpStatus: RsvpStatus.Confirmed,
         plusOne: true,
         plusOneName: 'James Johnson',
         dietaryRestriction: 'none',
@@ -59,7 +60,7 @@ export class GuestService {
         lastName: 'Smith',
         email: 'carol@example.com',
         phone: '',
-        rsvpStatus: 'pending',
+        rsvpStatus: RsvpStatus.Pending,
         plusOne: false,
         dietaryRestriction: 'vegetarian',
         allergies: 'nuts',
@@ -73,7 +74,7 @@ export class GuestService {
         lastName: 'Brown',
         email: 'david@example.com',
         phone: '',
-        rsvpStatus: 'declined',
+        rsvpStatus: RsvpStatus.Declined,
         plusOne: false,
         dietaryRestriction: 'gluten-free',
         allergies: '',

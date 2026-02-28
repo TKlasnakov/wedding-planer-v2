@@ -2,9 +2,9 @@ import { DietaryRestriction } from '../models/dietary-restriction.model';
 import { RsvpStatus } from '../models/rsvp-status.model';
 
 export const RSVP_OPTIONS: { value: RsvpStatus; label: string }[] = [
-  { value: 'pending', label: 'Pending' },
-  { value: 'confirmed', label: 'Confirmed' },
-  { value: 'declined', label: 'Declined' },
+  { value: RsvpStatus.Pending, label: 'Pending' },
+  { value: RsvpStatus.Confirmed, label: 'Confirmed' },
+  { value: RsvpStatus.Declined, label: 'Declined' },
 ];
 
 export const DIETARY_OPTIONS: { value: DietaryRestriction; label: string }[] = [

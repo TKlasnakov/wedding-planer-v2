@@ -7,6 +7,7 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatTooltipModule } from '@angular/material/tooltip';
 import { GuestService } from '../guests/services/guest.service';
 import { Guest } from '../guests/models/guest.model';
+import { RsvpStatus } from '../guests/models/rsvp-status.model';
 import { TableService } from './services/table.service';
 import { Table } from './models/table.model';
 import { TableFormComponent, TableFormData } from './table-form/table-form.component';
@@ -32,7 +33,7 @@ export class TablesComponent {
     for (const table of this.tables()) {
       map.set(table.number, []);
     }
-    for (const guest of this.guestService.guests().filter(guest => guest.rsvpStatus === 'confirmed')) {
+    for (const guest of this.guestService.guests().filter(guest => guest.rsvpStatus === RsvpStatus.Confirmed)) {
       const key = guest.tableNumber !== null && map.has(guest.tableNumber) ? guest.tableNumber : null;
       map.get(key)!.push(guest);
     }

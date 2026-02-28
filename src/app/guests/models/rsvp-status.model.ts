@@ -1,1 +1,5 @@
-export type RsvpStatus = 'pending' | 'confirmed' | 'declined';
+export enum RsvpStatus {
+  Pending = 'pending',
+  Confirmed = 'confirmed',
+  Declined = 'declined',
+}

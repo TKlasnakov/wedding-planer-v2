@@ -14,7 +14,7 @@ export const GUEST_DISPLAYED_COLUMNS = [
 
 export const GUEST_STATUS_OPTIONS: { value: RsvpStatus | 'all'; label: string }[] = [
   { value: 'all', label: 'All' },
-  { value: 'confirmed', label: 'Confirmed' },
-  { value: 'pending', label: 'Pending' },
-  { value: 'declined', label: 'Declined' },
+  { value: RsvpStatus.Confirmed, label: 'Confirmed' },
+  { value: RsvpStatus.Pending, label: 'Pending' },
+  { value: RsvpStatus.Declined, label: 'Declined' },
 ];

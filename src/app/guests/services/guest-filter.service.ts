@@ -31,21 +31,21 @@ export class GuestFilterService {
   readonly totalGuests = computed(() => this.guestService.guests().length);
 
   readonly confirmedCount = computed(
-    () => this.guestService.guests().filter(guest => guest.rsvpStatus === 'confirmed').length,
+    () => this.guestService.guests().filter(guest => guest.rsvpStatus === RsvpStatus.Confirmed).length,
   );
 
   readonly pendingCount = computed(
-    () => this.guestService.guests().filter(guest => guest.rsvpStatus === 'pending').length,
+    () => this.guestService.guests().filter(guest => guest.rsvpStatus === RsvpStatus.Pending).length,
   );
 
   readonly declinedCount = computed(
-    () => this.guestService.guests().filter(guest => guest.rsvpStatus === 'declined').length,
+    () => this.guestService.guests().filter(guest => guest.rsvpStatus === RsvpStatus.Declined).length,
   );
 
   readonly totalAttendees = computed(() =>
     this.guestService
       .guests()
-      .filter(guest => guest.rsvpStatus === 'confirmed')
+      .filter(guest => guest.rsvpStatus === RsvpStatus.Confirmed)
       .reduce((total, guest) => total + (guest.plusOne ? 2 : 1), 0),
   );
 }
