@@ -1,0 +1,48 @@
+<h2 mat-dialog-title>{{ data.expense ? 'Edit Expense' : 'Add Expense' }}</h2>
+<mat-dialog-content>
+  <form [formGroup]="form" class="expense-form">
+    <mat-form-field appearance="outline">
+      <mat-label>Category</mat-label>
+      <mat-select formControlName="categoryId">
+        @for (category of categories; track category.id) {
+          <mat-option [value]="category.id">{{ category.name }}</mat-option>
+        }
+      </mat-select>
+    </mat-form-field>
+
+    <mat-form-field appearance="outline">
+      <mat-label>Item Name</mat-label>
+      <input matInput formControlName="name" placeholder="e.g. DJ Set" />
+    </mat-form-field>
+
+    <mat-form-field appearance="outline">
+      <mat-label>Vendor / Supplier</mat-label>
+      <input matInput formControlName="vendor" placeholder="e.g. Sound Events Ltd." />
+    </mat-form-field>
+
+    <div class="cost-row">
+      <mat-form-field appearance="outline">
+        <mat-label>Estimated Cost (€)</mat-label>
+        <input matInput type="number" formControlName="estimatedCost" min="0" />
+      </mat-form-field>
+
+      <mat-form-field appearance="outline">
+        <mat-label>Actual Cost (€)</mat-label>
+        <input matInput type="number" formControlName="actualCost" min="0" placeholder="Leave blank if unknown" />
+      </mat-form-field>
+    </div>
+
+    <mat-checkbox formControlName="paid">Paid</mat-checkbox>
+
+    <mat-form-field appearance="outline" class="notes-field">
+      <mat-label>Notes</mat-label>
+      <textarea matInput formControlName="notes" rows="3" placeholder="Any additional details..."></textarea>
+    </mat-form-field>
+  </form>
+</mat-dialog-content>
+<mat-dialog-actions align="end">
+  <button mat-button mat-dialog-close>Cancel</button>
+  <button mat-raised-button color="primary" [disabled]="form.invalid" (click)="save()">
+    {{ data.expense ? 'Save' : 'Add' }}
+  </button>
+</mat-dialog-actions>

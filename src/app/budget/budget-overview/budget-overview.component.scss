@@ -1,0 +1,154 @@
+.budget-container {
+  padding: 24px;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+// Stats
+.stats-row {
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
+  gap: 16px;
+  margin-bottom: 24px;
+
+  @media (max-width: 900px) {
+    grid-template-columns: repeat(3, 1fr);
+  }
+
+  @media (max-width: 560px) {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+.stat-card {
+  text-align: center;
+  border-top: 4px solid #bdbdbd;
+
+  &.budget    { border-top-color: #c2185b; }
+  &.estimated { border-top-color: #f9a825; }
+  &.actual    { border-top-color: #ef6c00; }
+  &.paid      { border-top-color: #2e7d32; }
+
+  &.remaining-positive { border-top-color: #2e7d32; }
+  &.remaining-negative { border-top-color: #c62828; }
+
+  .stat-number {
+    font-size: 1.6rem;
+    font-weight: 600;
+    line-height: 1;
+    margin-bottom: 4px;
+  }
+
+  .stat-label {
+    font-size: 0.75rem;
+    color: #555555;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+  }
+
+  .stat-footer {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 4px;
+
+    .stat-label {
+      margin: 0;
+    }
+  }
+
+  .edit-budget-btn {
+    width: 24px;
+    height: 24px;
+    line-height: 24px;
+
+    mat-icon {
+      font-size: 16px;
+      width: 16px;
+      height: 16px;
+      color: #888;
+    }
+  }
+}
+
+// Table card
+.table-card {
+  mat-card-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 16px;
+    padding-bottom: 16px;
+  }
+
+  mat-card-title {
+    font-size: 1.25rem;
+    margin: 0;
+  }
+}
+
+.header-actions {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.category-filter {
+  width: 180px;
+}
+
+// Table
+.table-wrapper {
+  overflow-x: auto;
+}
+
+table {
+  width: 100%;
+
+  tr.mat-mdc-row:nth-child(even) {
+    background-color: #faf5f7;
+  }
+
+  tr.mat-mdc-row:hover {
+    background-color: #f3e4ea;
+  }
+}
+
+.name-cell {
+  font-weight: 500;
+}
+
+// Category chip
+.category-chip {
+  display: inline-block;
+  padding: 3px 10px;
+  border-radius: 12px;
+  font-size: 0.75rem;
+  font-weight: 500;
+  color: #fff;
+  white-space: nowrap;
+}
+
+// Paid icon
+.paid-yes {
+  color: #2e7d32;
+  vertical-align: middle;
+}
+
+.no-value {
+  color: #bdbdbd;
+}
+
+// Actions
+.actions-cell {
+  white-space: nowrap;
+}
+
+// No data
+.no-data-cell {
+  text-align: center;
+  padding: 48px 16px;
+  color: #616161;
+  font-style: italic;
+}

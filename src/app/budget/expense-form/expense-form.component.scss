@@ -1,0 +1,21 @@
+.expense-form {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  padding-top: 8px;
+  min-width: 480px;
+
+  mat-form-field {
+    width: 100%;
+  }
+}
+
+.cost-row {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 12px;
+}
+
+.notes-field {
+  margin-top: 4px;
+}

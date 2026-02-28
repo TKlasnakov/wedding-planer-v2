@@ -17,6 +17,11 @@ export const routes: Routes = [
       import('./tables/seating-chart/seating-chart.component').then(m => m.SeatingChartComponent),
   },
   {
+    path: 'budget',
+    loadComponent: () =>
+      import('./budget/budget-overview/budget-overview.component').then(m => m.BudgetOverviewComponent),
+  },
+  {
     path: '**',
     redirectTo: 'guests',
   },
