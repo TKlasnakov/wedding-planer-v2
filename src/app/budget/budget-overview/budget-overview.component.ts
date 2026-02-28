@@ -5,6 +5,7 @@ import {
   inject,
   signal,
 } from '@angular/core';
+import { CurrencyPipe } from '@angular/common';
 import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
 import { FormsModule } from '@angular/forms';
 import { MatButtonModule } from '@angular/material/button';
@@ -29,6 +30,7 @@ import { BudgetCategory } from '../models/budget-category.model';
   selector: 'app-budget-overview',
   changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [
+    CurrencyPipe,
     FormsModule,
     ReactiveFormsModule,
     MatButtonModule,
@@ -80,14 +82,12 @@ export class BudgetOverviewComponent {
 
     this.dialog
       .open<SetBudgetDialogComponent, SetBudgetDialogData>(SetBudgetDialogComponent, {
-        data: { form: budgetForm },
+        data: { form: budgetForm, currentAmount: this.budgetService.totalBudget() },
         width: '320px',
       })
       .afterClosed()
-      .subscribe((amount: number | undefined) => {
-        if (amount !== undefined) {
-          this.budgetService.setTotalBudget(amount);
-        }
+      .subscribe((amount: number) => {
+        this.budgetService.setTotalBudget(amount);
       });
   }
 

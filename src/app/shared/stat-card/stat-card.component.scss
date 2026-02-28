@@ -2,6 +2,16 @@
   text-align: center;
   border-top: 4px solid #bdbdbd;
 
+  &.clickable {
+    cursor: pointer;
+    transition: box-shadow 0.15s, transform 0.15s;
+
+    &:hover {
+      box-shadow: 0 4px 16px rgba(0, 0, 0, 0.12);
+      transform: translateY(-2px);
+    }
+  }
+
   .stat-number {
     font-size: 1.6rem;
     font-weight: 600;

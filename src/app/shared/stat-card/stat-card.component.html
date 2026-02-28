@@ -1,4 +1,4 @@
-<mat-card class="stat-card" [style.border-top-color]="borderColor">
+<mat-card class="stat-card" [class.clickable]="cardClick.observed" [style.border-top-color]="borderColor" (click)="cardClick.emit()">
   <mat-card-content>
     <div class="stat-number">
       @if (currencyCode) {

@@ -26,4 +26,5 @@ export class StatCardComponent {
   @Input() actionIcon: string | null = null;
   @Input() actionTooltip = '';
   @Output() actionClick = new EventEmitter<void>();
+  @Output() cardClick = new EventEmitter<void>();
 }

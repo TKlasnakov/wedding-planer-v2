@@ -7,6 +7,7 @@ import { MatInputModule } from '@angular/material/input';
 
 export interface SetBudgetDialogData {
   form: FormGroup;
+  currentAmount: number;
 }
 
 @Component({
@@ -26,8 +27,12 @@ export class SetBudgetDialogComponent {
   protected readonly data = inject<SetBudgetDialogData>(MAT_DIALOG_DATA);
   private readonly dialogRef = inject(MatDialogRef<SetBudgetDialogComponent>);
 
+  protected cancel(): void {
+    this.dialogRef.close(this.data.currentAmount);
+  }
+
   protected save(): void {
     if (this.data.form.invalid) return;
-    this.dialogRef.close(Number(this.data.form.getRawValue().amount));
+    this.dialogRef.close(Number(this.data.form.getRawValue().amount) || 0);
   }
 }
