@@ -20,15 +20,6 @@
           <input matInput [ngModel]="filterService.searchQuery()" (ngModelChange)="onSearchChange($event)" placeholder="Name or email..." />
           <mat-icon matSuffix>search</mat-icon>
         </mat-form-field>
-
-        <mat-form-field appearance="outline" class="status-filter">
-          <mat-label>Status</mat-label>
-          <mat-select [ngModel]="filterService.statusFilter()" (ngModelChange)="onStatusChange($event)">
-            @for (option of statusOptions; track option.value) {
-              <mat-option [value]="option.value">{{ option.label }}</mat-option>
-            }
-          </mat-select>
-        </mat-form-field>
       </div>
 
       <button mat-raised-button color="primary" (click)="openAddDialog()">

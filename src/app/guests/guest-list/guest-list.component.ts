@@ -16,7 +16,6 @@ import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
 import { MatTooltipModule } from '@angular/material/tooltip';
 import { MatCardModule } from '@angular/material/card';
-import { MatSelectModule } from '@angular/material/select';
 import { FormsModule } from '@angular/forms';
 
 import { Guest } from '../models/guest.model';
@@ -26,7 +25,7 @@ import { GuestFilterService } from '../services/guest-filter.service';
 import { GuestFormComponent } from '../guest-form/guest-form.component';
 import { ConfirmDialogComponent } from '../../shared/confirm-dialog/confirm-dialog.component';
 import { StatCardComponent } from '../../shared/stat-card/stat-card.component';
-import { GUEST_DISPLAYED_COLUMNS, GUEST_STATUS_OPTIONS } from './guest-list.constants';
+import { GUEST_DISPLAYED_COLUMNS } from './guest-list.constants';
 
 @Component({
   selector: 'app-guest-list',
@@ -43,7 +42,6 @@ import { GUEST_DISPLAYED_COLUMNS, GUEST_STATUS_OPTIONS } from './guest-list.cons
     MatSnackBarModule,
     MatTooltipModule,
     MatCardModule,
-    MatSelectModule,
     StatCardComponent,
   ],
   templateUrl: './guest-list.component.html',
@@ -59,7 +57,6 @@ export class GuestListComponent implements AfterViewInit {
   readonly filterService = inject(GuestFilterService);
 
   readonly displayedColumns = GUEST_DISPLAYED_COLUMNS;
-  readonly statusOptions = GUEST_STATUS_OPTIONS;
   readonly dataSource = new MatTableDataSource<Guest>([]);
 
   constructor() {
