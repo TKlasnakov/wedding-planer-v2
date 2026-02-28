@@ -117,6 +117,13 @@ export class GuestListComponent implements AfterViewInit {
       });
   }
 
+  copyRsvpLink(guest: Guest): void {
+    const link = `${window.location.origin}/rsvp/${guest.id}`;
+    navigator.clipboard.writeText(link).then(() => {
+      this.snackBar.open('RSVP link copied!', 'Close', { duration: 3000 });
+    });
+  }
+
   getPlusOneName(guest: Guest): string {
     return guest.plusOne ? (guest.plusOneName ?? '') : '';
   }

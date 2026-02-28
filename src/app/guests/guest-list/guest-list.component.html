@@ -136,6 +136,9 @@
           <ng-container matColumnDef="actions">
             <th mat-header-cell *matHeaderCellDef></th>
             <td mat-cell *matCellDef="let guest" class="actions-cell">
+              <button mat-icon-button (click)="copyRsvpLink(guest)" matTooltip="Copy RSVP link">
+                <mat-icon>link</mat-icon>
+              </button>
               <button mat-icon-button (click)="openEditDialog(guest)" matTooltip="Edit">
                 <mat-icon>edit</mat-icon>
               </button>
