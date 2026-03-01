@@ -18,7 +18,7 @@ export const routes: Routes = [
     path: 'tables',
     loadComponent: () =>
       import('./tables/tables.component').then(m => m.TablesComponent),
-    resolve: { tables: tablesResolver },
+    resolve: { tables: tablesResolver, guests: guestsResolver },
   },
   {
     path: 'budget',

@@ -5,4 +5,4 @@ import { Guest } from './models/guest.model';
 import { GuestService } from './services/guest.service';
 
 export const guestsResolver: ResolveFn<Guest[]> = () =>
-  inject(GuestService).fetchGuests().pipe(catchError(() => of([])));
+  inject(GuestService).ensureGuests().pipe(catchError(() => of([])));

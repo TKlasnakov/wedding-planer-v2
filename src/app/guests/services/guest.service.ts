@@ -1,6 +1,6 @@
 import { Injectable, inject, signal } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { Observable } from 'rxjs';
+import { Observable, of } from 'rxjs';
 import { tap } from 'rxjs/operators';
 import { Guest } from '../models/guest.model';
 import { environment } from '../../../environments/environment';
@@ -10,6 +10,7 @@ export class GuestService {
   private readonly http = inject(HttpClient);
   private readonly apiUrl = `${environment.apiUrl}/guests`;
   private readonly _guests = signal<Guest[]>([]);
+  private _loaded = false;
   readonly loading = signal(false);
 
   readonly guests = this._guests.asReadonly();
@@ -19,9 +20,15 @@ export class GuestService {
     return this.http.get<Guest[]>(this.apiUrl).pipe(
       tap((guests) => {
         this._guests.set(guests);
+        this._loaded = true;
         this.loading.set(false);
       }),
     );
+  }
+
+  ensureGuests(): Observable<Guest[]> {
+    if (this._loaded) return of(this._guests());
+    return this.fetchGuests();
   }
 
   addGuest(data: Omit<Guest, 'id'>): Observable<Guest> {
