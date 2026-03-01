@@ -93,17 +93,17 @@ table {
   font-weight: 500;
   text-transform: capitalize;
 
-  &.status-confirmed {
+  &.status-Confirmed {
     background-color: #2e7d32;
     color: #ffffff;
   }
 
-  &.status-pending {
+  &.status-Pending {
     background-color: #e65100;
     color: #ffffff;
   }
 
-  &.status-declined {
+  &.status-Declined {
     background-color: #c62828;
     color: #ffffff;
   }
