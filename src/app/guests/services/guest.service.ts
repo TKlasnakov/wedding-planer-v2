@@ -14,21 +14,14 @@ export class GuestService {
 
   readonly guests = this._guests.asReadonly();
 
-  constructor() {
-    this.fetchGuests();
-  }
-
-  fetchGuests(): void {
+  fetchGuests(): Observable<Guest[]> {
     this.loading.set(true);
-    this.http.get<Guest[]>(this.apiUrl).subscribe({
-      next: (guests) => {
+    return this.http.get<Guest[]>(this.apiUrl).pipe(
+      tap((guests) => {
         this._guests.set(guests);
         this.loading.set(false);
-      },
-      error: () => {
-        this.loading.set(false);
-      },
-    });
+      }),
+    );
   }
 
   addGuest(data: Omit<Guest, 'id'>): Observable<Guest> {

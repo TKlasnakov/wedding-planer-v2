@@ -1,4 +1,6 @@
 import { Routes } from '@angular/router';
+import { guestsResolver } from './guests/guests.resolver';
+import { tablesResolver } from './tables/tables.resolver';
 
 export const routes: Routes = [
   {
@@ -10,11 +12,13 @@ export const routes: Routes = [
     path: 'guests',
     loadComponent: () =>
       import('./guests/guest.component').then(m => m.GuestComponent),
+    resolve: { guests: guestsResolver },
   },
   {
     path: 'tables',
     loadComponent: () =>
       import('./tables/tables.component').then(m => m.TablesComponent),
+    resolve: { tables: tablesResolver },
   },
   {
     path: 'budget',

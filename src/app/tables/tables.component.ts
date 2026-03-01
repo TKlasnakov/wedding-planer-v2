@@ -1,5 +1,6 @@
 import { ChangeDetectionStrategy, Component, computed, inject } from '@angular/core';
 import { CdkDragDrop, DragDropModule } from '@angular/cdk/drag-drop';
+import { Observable, forkJoin, of, switchMap } from 'rxjs';
 import { MatButtonModule } from '@angular/material/button';
 import { MatCardModule } from '@angular/material/card';
 import { MatDialog } from '@angular/material/dialog';
@@ -52,7 +53,7 @@ export class TablesComponent {
   protected onDrop(event: CdkDragDrop<Guest[]>, targetTableNumber: number | null): void {
     if (event.previousContainer === event.container) return;
     const guest: Guest = event.item.data;
-    this.guestService.updateGuest(guest.id, { ...guest, tableNumber: targetTableNumber });
+    this.guestService.updateGuest(guest.id, { ...guest, tableNumber: targetTableNumber }).subscribe();
   }
 
   protected openAddTable(): void {
@@ -60,7 +61,7 @@ export class TablesComponent {
       .open<TableFormComponent, TableFormData>(TableFormComponent, { data: {} })
       .afterClosed()
       .subscribe(result => {
-        if (result) this.tableService.addTable(result);
+        if (result) this.tableService.addTable(result).subscribe();
       });
   }
 
@@ -69,7 +70,7 @@ export class TablesComponent {
       .open<TableFormComponent, TableFormData>(TableFormComponent, { data: { table } })
       .afterClosed()
       .subscribe(result => {
-        if (result) this.tableService.updateTable(table.id, result);
+        if (result) this.tableService.updateTable(table.id, result).subscribe();
       });
   }
 
@@ -85,13 +86,15 @@ export class TablesComponent {
       .afterClosed()
       .subscribe(confirmed => {
         if (!confirmed) return;
-        this.guestService
+        const guestsToUnassign = this.guestService
           .guests()
-          .filter(guest => guest.tableNumber === table.number)
-          .forEach(guest =>
-            this.guestService.updateGuest(guest.id, { ...guest, tableNumber: null }),
-          );
-        this.tableService.deleteTable(table.id);
+          .filter(guest => guest.tableNumber === table.number);
+        const unassign$: Observable<unknown> = guestsToUnassign.length
+          ? forkJoin(guestsToUnassign.map(guest =>
+              this.guestService.updateGuest(guest.id, { ...guest, tableNumber: null }),
+            ))
+          : of(null);
+        unassign$.pipe(switchMap(() => this.tableService.deleteTable(table.id))).subscribe();
       });
   }
 }
