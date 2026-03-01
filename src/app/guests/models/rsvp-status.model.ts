@@ -1,5 +1,5 @@
 export enum RsvpStatus {
-  Pending = 'pending',
-  Confirmed = 'confirmed',
-  Declined = 'declined',
+  Pending = 'Pending',
+  Confirmed = 'Confirmed',
+  Declined = 'Declined',
 }

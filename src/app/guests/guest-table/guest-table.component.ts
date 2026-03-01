@@ -50,8 +50,10 @@ export class GuestTableComponent {
       .afterClosed()
       .subscribe((result) => {
         if (!result) return;
-        this.guestService.addGuest(result);
-        this.snackBar.open('Guest added!', 'Close', { duration: 3000 });
+        this.guestService.addGuest(result).subscribe({
+          next: () => this.snackBar.open('Guest added!', 'Close', { duration: 3000 }),
+          error: () => this.snackBar.open('Failed to add guest.', 'Close', { duration: 3000 }),
+        });
       });
   }
 
@@ -61,8 +63,10 @@ export class GuestTableComponent {
       .afterClosed()
       .subscribe((result) => {
         if (!result) return;
-        this.guestService.updateGuest(guest.id, result);
-        this.snackBar.open('Guest updated!', 'Close', { duration: 3000 });
+        this.guestService.updateGuest(guest.id, result).subscribe({
+          next: () => this.snackBar.open('Guest updated!', 'Close', { duration: 3000 }),
+          error: () => this.snackBar.open('Failed to update guest.', 'Close', { duration: 3000 }),
+        });
       });
   }
 
@@ -78,8 +82,10 @@ export class GuestTableComponent {
       .afterClosed()
       .subscribe((confirmed) => {
         if (!confirmed) return;
-        this.guestService.deleteGuest(guest.id);
-        this.snackBar.open('Guest removed.', 'Close', { duration: 3000 });
+        this.guestService.deleteGuest(guest.id).subscribe({
+          next: () => this.snackBar.open('Guest removed.', 'Close', { duration: 3000 }),
+          error: () => this.snackBar.open('Failed to remove guest.', 'Close', { duration: 3000 }),
+        });
       });
   }
 

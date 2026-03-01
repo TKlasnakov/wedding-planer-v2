@@ -1,87 +1,55 @@
 import { Injectable, inject, signal } from '@angular/core';
+import { HttpClient } from '@angular/common/http';
+import { Observable } from 'rxjs';
+import { tap } from 'rxjs/operators';
 import { Guest } from '../models/guest.model';
-import { RsvpStatus } from '../models/rsvp-status.model';
-import { StorageService } from '../../shared/services/storage.service';
+import { environment } from '../../../environments/environment';
 
 @Injectable({ providedIn: 'root' })
 export class GuestService {
-  private readonly STORAGE_KEY = 'wedding_guests';
-  private readonly storageService = inject(StorageService);
-  private readonly _guests = signal<Guest[]>(this.loadGuests());
+  private readonly http = inject(HttpClient);
+  private readonly apiUrl = `${environment.apiUrl}/guests`;
+  private readonly _guests = signal<Guest[]>([]);
+  readonly loading = signal(false);
 
   readonly guests = this._guests.asReadonly();
 
-  addGuest(guest: Omit<Guest, 'id'>): void {
-    const newGuest: Guest = { ...guest, id: crypto.randomUUID() };
-    this._guests.update(guests => [...guests, newGuest]);
-    this.persist();
+  constructor() {
+    this.fetchGuests();
   }
 
-  updateGuest(id: string, updates: Omit<Guest, 'id'>): void {
-    this._guests.update(guests =>
-      guests.map(guest => (guest.id === id ? { ...updates, id } : guest)),
+  fetchGuests(): void {
+    this.loading.set(true);
+    this.http.get<Guest[]>(this.apiUrl).subscribe({
+      next: (guests) => {
+        this._guests.set(guests);
+        this.loading.set(false);
+      },
+      error: () => {
+        this.loading.set(false);
+      },
+    });
+  }
+
+  addGuest(data: Omit<Guest, 'id'>): Observable<Guest> {
+    return this.http.post<Guest>(this.apiUrl, data).pipe(
+      tap((guest) => this._guests.update((guests) => [...guests, guest])),
     );
-    this.persist();
   }
 
-  deleteGuest(id: string): void {
-    this._guests.update(guests => guests.filter(guest => guest.id !== id));
-    this.persist();
+  updateGuest(id: string, data: Omit<Guest, 'id'>): Observable<Guest> {
+    return this.http.patch<Guest>(`${this.apiUrl}/${id}`, data).pipe(
+      tap((updated) =>
+        this._guests.update((guests) =>
+          guests.map((guest) => (guest.id === id ? updated : guest)),
+        ),
+      ),
+    );
   }
 
-  private loadGuests(): Guest[] {
-    return this.storageService.get<Guest[]>(this.STORAGE_KEY) ?? this.sampleGuests();
-  }
-
-  private persist(): void {
-    this.storageService.set(this.STORAGE_KEY, this._guests());
-  }
-
-  private sampleGuests(): Guest[] {
-    return [
-      {
-        id: crypto.randomUUID(),
-        firstName: 'Alice',
-        lastName: 'Johnson',
-        email: 'alice@example.com',
-        phone: '+1 555-0101',
-        rsvpStatus: RsvpStatus.Confirmed,
-        plusOne: true,
-        plusOneName: 'James Johnson',
-        dietaryRestriction: 'none',
-        allergies: '',
-        kidsUnder14: 0,
-        tableNumber: null,
-        notes: '',
-      },
-      {
-        id: crypto.randomUUID(),
-        firstName: 'Carol',
-        lastName: 'Smith',
-        email: 'carol@example.com',
-        phone: '',
-        rsvpStatus: RsvpStatus.Pending,
-        plusOne: false,
-        dietaryRestriction: 'vegetarian',
-        allergies: 'nuts',
-        kidsUnder14: 2,
-        tableNumber: null,
-        notes: '',
-      },
-      {
-        id: crypto.randomUUID(),
-        firstName: 'David',
-        lastName: 'Brown',
-        email: 'david@example.com',
-        phone: '',
-        rsvpStatus: RsvpStatus.Declined,
-        plusOne: false,
-        dietaryRestriction: 'gluten-free',
-        allergies: '',
-        kidsUnder14: 0,
-        tableNumber: null,
-        notes: 'Unable to attend due to travel',
-      },
-    ];
+  deleteGuest(id: string): Observable<void> {
+    return this.http.delete<void>(`${this.apiUrl}/${id}`).pipe(
+      tap(() => this._guests.update((guests) => guests.filter((guest) => guest.id !== id))),
+    );
   }
 }

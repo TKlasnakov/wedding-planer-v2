@@ -12,6 +12,7 @@ import { RsvpStatus } from '../models/rsvp-status.model';
 })
 export class GuestStatsComponent {
   protected readonly filterService = inject(GuestFilterService);
+  protected readonly RsvpStatus = RsvpStatus;
 
   protected onStatusChange(status: RsvpStatus | 'all'): void {
     this.filterService.statusFilter.set(status);
