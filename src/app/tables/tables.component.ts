@@ -1,5 +1,6 @@
 import { ChangeDetectionStrategy, Component, computed, inject } from '@angular/core';
 import { CdkDragDrop, DragDropModule } from '@angular/cdk/drag-drop';
+import { filter, switchMap, tap } from 'rxjs';
 import { MatButtonModule } from '@angular/material/button';
 import { MatCardModule } from '@angular/material/card';
 import { MatDialog } from '@angular/material/dialog';
@@ -59,18 +60,22 @@ export class TablesComponent {
     this.dialog
       .open<TableFormComponent, TableFormData>(TableFormComponent, { data: {} })
       .afterClosed()
-      .subscribe(result => {
-        if (result) this.tableService.addTable(result).subscribe();
-      });
+      .pipe(
+        filter(result => !!result),
+        switchMap(result => this.tableService.addTable(result)),
+      )
+      .subscribe();
   }
 
   protected openEditTable(table: Table): void {
     this.dialog
       .open<TableFormComponent, TableFormData>(TableFormComponent, { data: { table } })
       .afterClosed()
-      .subscribe(result => {
-        if (result) this.tableService.updateTable(table.id, result).subscribe();
-      });
+      .pipe(
+        filter(result => !!result),
+        switchMap(result => this.tableService.updateTable(table.id, result)),
+      )
+      .subscribe();
   }
 
   protected deleteTable(table: Table): void {
@@ -83,14 +88,17 @@ export class TablesComponent {
         },
       })
       .afterClosed()
-      .subscribe(confirmed => {
-        if (!confirmed) return;
-        const assignedGuestIds = this.guestService.guests()
-          .filter(guest => guest.tableId === table.id)
-          .map(guest => guest.id);
-        this.tableService.deleteTable(table.id).subscribe(() => {
-          this.guestService.clearTableAssignment(assignedGuestIds);
-        });
-      });
+      .pipe(
+        filter(confirmed => !!confirmed),
+        switchMap(() => {
+          const assignedGuestIds = this.guestService.guests()
+            .filter(guest => guest.tableId === table.id)
+            .map(guest => guest.id);
+          return this.tableService.deleteTable(table.id).pipe(
+            tap(() => this.guestService.clearTableAssignment(assignedGuestIds)),
+          );
+        }),
+      )
+      .subscribe();
   }
 }
