@@ -12,6 +12,7 @@ import { MatTooltipModule } from '@angular/material/tooltip';
 import { Guest } from '../models/guest.model';
 import { GuestService } from '../services/guest.service';
 import { GuestFilterService } from '../services/guest-filter.service';
+import { TableService } from '../../tables/services/table.service';
 import { GuestFormComponent } from '../guest-form/guest-form.component';
 import { ConfirmDialogComponent } from '../../shared/confirm-dialog/confirm-dialog.component';
 import { GUEST_DISPLAYED_COLUMNS } from '../guest.constants';
@@ -34,6 +35,7 @@ import { GUEST_DISPLAYED_COLUMNS } from '../guest.constants';
 })
 export class GuestTableComponent {
   private readonly guestService = inject(GuestService);
+  private readonly tableService = inject(TableService);
   private readonly dialog = inject(MatDialog);
   private readonly snackBar = inject(MatSnackBar);
 
@@ -94,6 +96,12 @@ export class GuestTableComponent {
     navigator.clipboard.writeText(link).then(() => {
       this.snackBar.open('RSVP link copied!', 'Close', { duration: 3000 });
     });
+  }
+
+  protected getTableNumber(guest: Guest): string {
+    if (!guest.tableId) return '—';
+    const table = this.tableService.tables().find(table => table.id === guest.tableId);
+    return table ? String(table.number) : '—';
   }
 
   protected getPlusOneName(guest: Guest): string {

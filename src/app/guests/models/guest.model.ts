@@ -11,7 +11,7 @@ export interface Guest {
   dietaryRestriction: DietaryRestriction;
   allergies: string;
   kidsUnder14: number;
-  tableNumber: number | null;
+  tableId: string | null;
   notes: string;
   plusOne: boolean;
   plusOneName?: string;

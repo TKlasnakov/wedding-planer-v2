@@ -31,6 +31,12 @@ export class GuestService {
     return this.fetchGuests();
   }
 
+  clearTableAssignment(guestIds: string[]): void {
+    this._guests.update(guests =>
+      guests.map(guest => guestIds.includes(guest.id) ? { ...guest, tableId: null } : guest),
+    );
+  }
+
   addGuest(data: Omit<Guest, 'id'>): Observable<Guest> {
     return this.http.post<Guest>(this.apiUrl, data).pipe(
       tap((guest) => this._guests.update((guests) => [...guests, guest])),

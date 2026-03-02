@@ -103,7 +103,7 @@ export class RsvpPageComponent implements OnInit {
       notes: rest.notes ?? '',
       plusOne: !!plusOne,
       plusOneName: plusOne && plusOneName ? plusOneName : undefined,
-      tableNumber: guest.tableNumber,
+      tableId: guest.tableId,
     };
 
     this.guestService.updateGuest(this.guestId, updated);

@@ -67,20 +67,20 @@
             </div>
           </mat-card-title>
           <mat-card-subtitle>
-            {{ attendeeCount(guestsByTable().get(table.number) ?? []) }} / {{ table.capacity }} seats
+            {{ attendeeCount(guestsByTable().get(table.id) ?? []) }} / {{ table.capacity }} seats
           </mat-card-subtitle>
         </mat-card-header>
         <mat-card-content>
           <div
             [id]="'table-' + table.id"
             cdkDropList
-            [cdkDropListData]="guestsByTable().get(table.number) ?? []"
+            [cdkDropListData]="guestsByTable().get(table.id) ?? []"
             [cdkDropListConnectedTo]="allDropListIds()"
-            (cdkDropListDropped)="onDrop($event, table.number)"
+            (cdkDropListDropped)="onDrop($event, table)"
             class="drop-zone"
-            [class.full]="attendeeCount(guestsByTable().get(table.number) ?? []) >= table.capacity"
+            [class.full]="attendeeCount(guestsByTable().get(table.id) ?? []) >= table.capacity"
           >
-            @for (guest of (guestsByTable().get(table.number) ?? []); track guest.id) {
+            @for (guest of (guestsByTable().get(table.id) ?? []); track guest.id) {
               <div cdkDrag [cdkDragData]="guest" class="guest-chip">
                 <div class="avatar">{{ guest.firstName[0] }}{{ guest.lastName[0] }}</div>
                 <span>{{ guest.firstName }} {{ guest.lastName }}</span>
@@ -96,7 +96,7 @@
                 </div>
               }
             }
-            @if (attendeeCount(guestsByTable().get(table.number) ?? []) === 0) {
+            @if (attendeeCount(guestsByTable().get(table.id) ?? []) === 0) {
               <div class="empty-hint">Drop guests here</div>
             }
           </div>

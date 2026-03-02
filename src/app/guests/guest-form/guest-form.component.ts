@@ -46,7 +46,6 @@ export class GuestFormComponent implements OnInit {
     phone: [''],
     rsvpStatus: [RsvpStatus.Pending, Validators.required],
     dietaryRestriction: [<DietaryRestriction>'none', Validators.required],
-    tableNumber: [<number | null>null, [Validators.min(1)]],
     allergies: [''],
     kidsUnder14: [0, [Validators.min(0)]],
     notes: [''],
@@ -73,7 +72,7 @@ export class GuestFormComponent implements OnInit {
       return;
     }
 
-    const { plusOne, plusOneName, tableNumber, kidsUnder14, ...rest } = this.form.getRawValue();
+    const { plusOne, plusOneName, kidsUnder14, ...rest } = this.form.getRawValue();
     const result: Omit<Guest, 'id'> = {
       firstName: rest.firstName ?? '',
       lastName: rest.lastName ?? '',
@@ -86,7 +85,7 @@ export class GuestFormComponent implements OnInit {
       notes: rest.notes ?? '',
       plusOne: !!plusOne,
       plusOneName: plusOne && plusOneName ? plusOneName : undefined,
-      tableNumber: tableNumber ? Number(tableNumber) : null,
+      tableId: this.guest?.tableId ?? null,
     };
 
     this.dialogRef.close(result);
