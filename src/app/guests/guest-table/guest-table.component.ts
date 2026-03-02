@@ -1,4 +1,5 @@
 import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
+import { filter, switchMap } from 'rxjs';
 import { FormsModule } from '@angular/forms';
 import { MatButtonModule } from '@angular/material/button';
 import { MatCardModule } from '@angular/material/card';
@@ -50,12 +51,13 @@ export class GuestTableComponent {
     this.dialog
       .open(GuestFormComponent, { data: null, width: '600px', maxWidth: '95vw' })
       .afterClosed()
-      .subscribe((result) => {
-        if (!result) return;
-        this.guestService.addGuest(result).subscribe({
-          next: () => this.snackBar.open('Guest added!', 'Close', { duration: 3000 }),
-          error: () => this.snackBar.open('Failed to add guest.', 'Close', { duration: 3000 }),
-        });
+      .pipe(
+        filter(result => !!result),
+        switchMap(result => this.guestService.addGuest(result)),
+      )
+      .subscribe({
+        next: () => this.snackBar.open('Guest added!', 'Close', { duration: 3000 }),
+        error: () => this.snackBar.open('Failed to add guest.', 'Close', { duration: 3000 }),
       });
   }
 
@@ -63,12 +65,13 @@ export class GuestTableComponent {
     this.dialog
       .open(GuestFormComponent, { data: guest, width: '600px', maxWidth: '95vw' })
       .afterClosed()
-      .subscribe((result) => {
-        if (!result) return;
-        this.guestService.updateGuest(guest.id, result).subscribe({
-          next: () => this.snackBar.open('Guest updated!', 'Close', { duration: 3000 }),
-          error: () => this.snackBar.open('Failed to update guest.', 'Close', { duration: 3000 }),
-        });
+      .pipe(
+        filter(result => !!result),
+        switchMap(result => this.guestService.updateGuest(guest.id, result)),
+      )
+      .subscribe({
+        next: () => this.snackBar.open('Guest updated!', 'Close', { duration: 3000 }),
+        error: () => this.snackBar.open('Failed to update guest.', 'Close', { duration: 3000 }),
       });
   }
 
@@ -82,12 +85,13 @@ export class GuestTableComponent {
         },
       })
       .afterClosed()
-      .subscribe((confirmed) => {
-        if (!confirmed) return;
-        this.guestService.deleteGuest(guest.id).subscribe({
-          next: () => this.snackBar.open('Guest removed.', 'Close', { duration: 3000 }),
-          error: () => this.snackBar.open('Failed to remove guest.', 'Close', { duration: 3000 }),
-        });
+      .pipe(
+        filter(confirmed => !!confirmed),
+        switchMap(() => this.guestService.deleteGuest(guest.id)),
+      )
+      .subscribe({
+        next: () => this.snackBar.open('Guest removed.', 'Close', { duration: 3000 }),
+        error: () => this.snackBar.open('Failed to remove guest.', 'Close', { duration: 3000 }),
       });
   }
 
