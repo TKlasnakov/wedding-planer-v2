@@ -85,7 +85,9 @@ export class TablesComponent {
       .afterClosed()
       .subscribe(confirmed => {
         if (!confirmed) return;
-        const assignedGuestIds = (table.guest ?? []).map(guest => guest.id);
+        const assignedGuestIds = this.guestService.guests()
+          .filter(guest => guest.tableId === table.id)
+          .map(guest => guest.id);
         this.tableService.deleteTable(table.id).subscribe(() => {
           this.guestService.clearTableAssignment(assignedGuestIds);
         });

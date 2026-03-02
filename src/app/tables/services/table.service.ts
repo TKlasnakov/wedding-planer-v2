@@ -1,6 +1,6 @@
 import { Injectable, inject, signal } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { Observable } from 'rxjs';
+import { Observable, of } from 'rxjs';
 import { tap } from 'rxjs/operators';
 import { Table } from '../models/table.model';
 import { environment } from '../../../environments/environment';
@@ -10,6 +10,7 @@ export class TableService {
   private readonly http = inject(HttpClient);
   private readonly apiUrl = `${environment.apiUrl}/tables`;
   private readonly _tables = signal<Table[]>([]);
+  private _loaded = false;
   readonly loading = signal(false);
 
   readonly tables = this._tables.asReadonly();
@@ -19,9 +20,15 @@ export class TableService {
     return this.http.get<Table[]>(this.apiUrl).pipe(
       tap((tables) => {
         this._tables.set(tables);
+        this._loaded = true;
         this.loading.set(false);
       }),
     );
+  }
+
+  ensureTables(): Observable<Table[]> {
+    if (this._loaded) return of(this._tables());
+    return this.fetchTables();
   }
 
   addTable(data: Omit<Table, 'id'>): Observable<Table> {

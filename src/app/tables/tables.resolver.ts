@@ -5,4 +5,4 @@ import { Table } from './models/table.model';
 import { TableService } from './services/table.service';
 
 export const tablesResolver: ResolveFn<Table[]> = () =>
-  inject(TableService).fetchTables().pipe(catchError(() => of([])));
+  inject(TableService).ensureTables().pipe(catchError(() => of([])));
