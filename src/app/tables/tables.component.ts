@@ -1,11 +1,7 @@
 import { ChangeDetectionStrategy, Component, computed, inject } from '@angular/core';
-import { CdkDragDrop, DragDropModule } from '@angular/cdk/drag-drop';
+import { CdkDragDrop } from '@angular/cdk/drag-drop';
 import { filter, switchMap, tap } from 'rxjs';
-import { MatButtonModule } from '@angular/material/button';
-import { MatCardModule } from '@angular/material/card';
 import { MatDialog } from '@angular/material/dialog';
-import { MatIconModule } from '@angular/material/icon';
-import { MatTooltipModule } from '@angular/material/tooltip';
 import { GuestService } from '../guests/services/guest.service';
 import { Guest } from '../guests/models/guest.model';
 import { RsvpStatus } from '../guests/models/rsvp-status.model';
@@ -13,11 +9,14 @@ import { TableService } from './services/table.service';
 import { Table } from './models/table.model';
 import { TableFormComponent, TableFormData } from './table-form/table-form.component';
 import { ConfirmDialogComponent, ConfirmDialogData } from '../shared/confirm-dialog/confirm-dialog.component';
+import { ChartHeaderComponent } from './chart-header/chart-header.component';
+import { UnassignedGuestsComponent } from './unassigned-guests/unassigned-guests.component';
+import { TablesGridComponent } from './tables-grid/tables-grid.component';
 
 @Component({
   selector: 'app-tables',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [DragDropModule, MatButtonModule, MatCardModule, MatIconModule, MatTooltipModule],
+  imports: [ChartHeaderComponent, UnassignedGuestsComponent, TablesGridComponent],
   templateUrl: './tables.component.html',
   styleUrl: './tables.component.scss',
 })
@@ -45,10 +44,6 @@ export class TablesComponent {
     'unassigned',
     ...this.tables().map(table => `table-${table.id}`),
   ]);
-
-  protected attendeeCount(guests: Guest[]): number {
-    return guests.reduce((total, guest) => total + (guest.plusOne ? 2 : 1), 0);
-  }
 
   protected onDrop(event: CdkDragDrop<Guest[]>, targetTable: Table | null): void {
     if (event.previousContainer === event.container) return;

@@ -1,4 +1,5 @@
 import { Routes } from '@angular/router';
+import { budgetResolver } from './budget/budget.resolver';
 import { guestsResolver } from './guests/guests.resolver';
 import { tablesResolver } from './tables/tables.resolver';
 
@@ -24,6 +25,7 @@ export const routes: Routes = [
     path: 'budget',
     loadComponent: () =>
       import('./budget/budget.component').then(m => m.BudgetComponent),
+    resolve: { budget: budgetResolver },
   },
   {
     path: 'rsvp/:id',

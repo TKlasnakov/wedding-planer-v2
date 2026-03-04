@@ -1,10 +1,4 @@
-import {
-  ChangeDetectionStrategy,
-  Component,
-  EventEmitter,
-  Input,
-  Output,
-} from '@angular/core';
+import { ChangeDetectionStrategy, Component, input, output } from '@angular/core';
 import { CurrencyPipe } from '@angular/common';
 import { MatButtonModule } from '@angular/material/button';
 import { MatCardModule } from '@angular/material/card';
@@ -19,12 +13,13 @@ import { MatTooltipModule } from '@angular/material/tooltip';
   styleUrl: './stat-card.component.scss',
 })
 export class StatCardComponent {
-  @Input({ required: true }) value: number = 0;
-  @Input({ required: true }) label = '';
-  @Input() borderColor = '#bdbdbd';
-  @Input() currencyCode: string | null = null;
-  @Input() actionIcon: string | null = null;
-  @Input() actionTooltip = '';
-  @Output() actionClick = new EventEmitter<void>();
-  @Output() cardClick = new EventEmitter<void>();
+  readonly value = input.required<number>();
+  readonly label = input.required<string>();
+  readonly borderColor = input('#bdbdbd');
+  readonly currencyCode = input<string | null>(null);
+  readonly actionIcon = input<string | null>(null);
+  readonly actionTooltip = input('');
+  readonly clickable = input(false);
+  readonly actionClick = output<void>();
+  readonly cardClick = output<void>();
 }

@@ -1,0 +1,32 @@
+<mat-card class="unassigned-panel">
+  <mat-card-header>
+    <mat-card-title>
+      Unassigned
+      <span class="guest-count">{{ guests().length }}</span>
+    </mat-card-title>
+  </mat-card-header>
+  <mat-card-content>
+    <div
+      id="unassigned"
+      cdkDropList
+      [cdkDropListData]="guests()"
+      [cdkDropListConnectedTo]="connectedTo()"
+      (cdkDropListDropped)="dropped.emit($event)"
+      class="drop-zone"
+    >
+      @for (guest of guests(); track guest.id) {
+        <div cdkDrag [cdkDragData]="guest" class="guest-chip">
+          <div class="avatar">{{ guest.firstName[0] }}{{ guest.lastName[0] }}</div>
+          <span>{{ guest.firstName }} {{ guest.lastName }}</span>
+          @if (guest.plusOne) {
+            <span class="plus-one-tag">+1</span>
+          }
+          <mat-icon cdkDragHandle class="drag-handle">drag_indicator</mat-icon>
+        </div>
+      }
+      @if (guests().length === 0) {
+        <div class="empty-hint">All guests assigned</div>
+      }
+    </div>
+  </mat-card-content>
+</mat-card>

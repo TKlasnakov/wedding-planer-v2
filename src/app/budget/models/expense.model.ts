@@ -1,6 +1,8 @@
+import { BudgetCategoryId } from './budget-category-id.model';
+
 export interface Expense {
   id: string;
-  categoryId: string;
+  categoryId: BudgetCategoryId;
   name: string;
   vendor: string;
   estimatedCost: number;

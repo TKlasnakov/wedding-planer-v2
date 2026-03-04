@@ -7,6 +7,7 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { MatSelectModule } from '@angular/material/select';
 import { BUDGET_CATEGORIES } from '../budget.constants';
+import { BudgetCategoryId } from '../models/budget-category-id.model';
 import { Expense } from '../models/expense.model';
 
 export interface ExpenseFormData {
@@ -36,7 +37,7 @@ export class ExpenseFormComponent {
   protected readonly categories = BUDGET_CATEGORIES;
 
   protected readonly form = this.fb.nonNullable.group({
-    categoryId: [this.data.expense?.categoryId ?? '', Validators.required],
+    categoryId: [this.data.expense?.categoryId ?? ('' as BudgetCategoryId), Validators.required],
     name: [this.data.expense?.name ?? '', Validators.required],
     vendor: [this.data.expense?.vendor ?? ''],
     estimatedCost: [this.data.expense?.estimatedCost ?? 0, [Validators.required, Validators.min(0)]],

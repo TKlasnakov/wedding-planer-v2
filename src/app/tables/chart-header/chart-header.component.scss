@@ -1,0 +1,13 @@
+:host {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 24px;
+}
+
+.chart-title {
+  font-size: 1.5rem;
+  font-weight: 600;
+  margin: 0;
+  color: #212121;
+}

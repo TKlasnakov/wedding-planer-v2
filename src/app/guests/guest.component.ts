@@ -6,7 +6,7 @@ import { GuestTableComponent } from './guest-table/guest-table.component';
   selector: 'app-guest',
   changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [GuestStatsComponent, GuestTableComponent],
-  templateUrl: './guest.component.html',
+  template: `<app-guest-stats /><app-guest-table />`,
   styleUrl: './guest.component.scss',
 })
 export class GuestComponent {}

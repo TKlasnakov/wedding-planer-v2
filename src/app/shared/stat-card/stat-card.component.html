@@ -1,21 +1,21 @@
-<mat-card class="stat-card" [class.clickable]="cardClick.observed" [style.border-top-color]="borderColor" (click)="cardClick.emit()">
+<mat-card class="stat-card" [class.clickable]="clickable()" [style.border-top-color]="borderColor()" (click)="cardClick.emit()">
   <mat-card-content>
     <div class="stat-number">
-      @if (currencyCode) {
-        {{ value | currency: currencyCode : 'symbol' : '1.0-0' }}
+      @if (currencyCode()) {
+        {{ value() | currency: currencyCode()! : 'symbol' : '1.0-0' }}
       } @else {
-        {{ value }}
+        {{ value() }}
       }
     </div>
-    @if (actionIcon) {
+    @if (actionIcon()) {
       <div class="stat-footer">
-        <span class="stat-label">{{ label }}</span>
-        <button mat-icon-button class="action-btn" [matTooltip]="actionTooltip" (click)="actionClick.emit()">
-          <mat-icon>{{ actionIcon }}</mat-icon>
+        <span class="stat-label">{{ label() }}</span>
+        <button mat-icon-button class="action-btn" [matTooltip]="actionTooltip()" (click)="actionClick.emit()">
+          <mat-icon>{{ actionIcon() }}</mat-icon>
         </button>
       </div>
     } @else {
-      <div class="stat-label">{{ label }}</div>
+      <div class="stat-label">{{ label() }}</div>
     }
   </mat-card-content>
 </mat-card>

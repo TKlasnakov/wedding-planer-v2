@@ -6,6 +6,7 @@ import {
   signal,
 } from '@angular/core';
 import { CurrencyPipe } from '@angular/common';
+import { filter, switchMap } from 'rxjs';
 import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
 import { FormsModule } from '@angular/forms';
 import { MatButtonModule } from '@angular/material/button';
@@ -25,6 +26,7 @@ import { ConfirmDialogComponent, ConfirmDialogData } from '../shared/confirm-dia
 import { StatCardComponent } from '../shared/stat-card/stat-card.component';
 import { Expense } from './models/expense.model';
 import { BudgetCategory } from './models/budget-category.model';
+import { BudgetCategoryId } from './models/budget-category-id.model';
 
 @Component({
   selector: 'app-budget',
@@ -53,11 +55,11 @@ export class BudgetComponent {
   private readonly fb = inject(FormBuilder);
 
   protected readonly categories = BUDGET_CATEGORIES;
-  protected readonly categoryFilter = signal<string>('all');
+  protected readonly categoryFilter = signal<BudgetCategoryId | 'all'>('all');
 
   protected readonly displayedColumns = ['category', 'name', 'vendor', 'estimatedCost', 'actualCost', 'paid', 'actions'];
 
-  protected readonly categoryMap = new Map<string, BudgetCategory>(
+  protected readonly categoryMap = new Map<BudgetCategoryId, BudgetCategory>(
     BUDGET_CATEGORIES.map(category => [category.id, category]),
   );
 
@@ -67,11 +69,11 @@ export class BudgetComponent {
     return filter === 'all' ? expenses : expenses.filter(expense => expense.categoryId === filter);
   });
 
-  protected getCategoryColor(categoryId: string): string {
+  protected getCategoryColor(categoryId: BudgetCategoryId): string {
     return this.categoryMap.get(categoryId)?.color ?? '#9e9e9e';
   }
 
-  protected getCategoryName(categoryId: string): string {
+  protected getCategoryName(categoryId: BudgetCategoryId): string {
     return this.categoryMap.get(categoryId)?.name ?? categoryId;
   }
 
@@ -86,9 +88,11 @@ export class BudgetComponent {
         width: '320px',
       })
       .afterClosed()
-      .subscribe((amount: number) => {
-        this.budgetService.setTotalBudget(amount);
-      });
+      .pipe(
+        filter(amount => amount != null),
+        switchMap(amount => this.budgetService.setTotalBudget(amount)),
+      )
+      .subscribe();
   }
 
   protected openAddExpense(): void {

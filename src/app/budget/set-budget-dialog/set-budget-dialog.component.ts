@@ -28,7 +28,7 @@ export class SetBudgetDialogComponent {
   private readonly dialogRef = inject(MatDialogRef<SetBudgetDialogComponent>);
 
   protected cancel(): void {
-    this.dialogRef.close(this.data.currentAmount);
+    this.dialogRef.close();
   }
 
   protected save(): void {
