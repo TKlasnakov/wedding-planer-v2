@@ -102,9 +102,11 @@ export class BudgetComponent {
         maxWidth: '95vw',
       })
       .afterClosed()
-      .subscribe(result => {
-        if (result) this.budgetService.addExpense(result);
-      });
+      .pipe(
+        filter(result => !!result),
+        switchMap(result => this.budgetService.addExpense(result)),
+      )
+      .subscribe();
   }
 
   protected openEditExpense(expense: Expense): void {
@@ -114,9 +116,11 @@ export class BudgetComponent {
         maxWidth: '95vw',
       })
       .afterClosed()
-      .subscribe(result => {
-        if (result) this.budgetService.updateExpense(expense.id, result);
-      });
+      .pipe(
+        filter(result => !!result),
+        switchMap(result => this.budgetService.updateExpense(expense.id, result)),
+      )
+      .subscribe();
   }
 
   protected deleteExpense(expense: Expense): void {
@@ -129,8 +133,10 @@ export class BudgetComponent {
         },
       })
       .afterClosed()
-      .subscribe(confirmed => {
-        if (confirmed) this.budgetService.deleteExpense(expense.id);
-      });
+      .pipe(
+        filter(confirmed => !!confirmed),
+        switchMap(() => this.budgetService.deleteExpense(expense.id)),
+      )
+      .subscribe();
   }
 }

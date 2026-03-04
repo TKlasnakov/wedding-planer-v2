@@ -1,6 +1,6 @@
 import { Injectable, computed, inject, signal } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { Observable, of, tap, map } from 'rxjs';
+import { Observable, of, tap } from 'rxjs';
 import { BudgetCategoryId } from '../models/budget-category-id.model';
 import { Expense } from '../models/expense.model';
 
@@ -73,7 +73,7 @@ export class BudgetService {
     );
   }
 
-  setTotalBudget(amount: number): Observable<void> {
+  setTotalBudget(amount: number): Observable<BudgetApiResponse> {
     const body = this._budgetId
       ? { id: this._budgetId, totalBudget: amount }
       : { totalBudget: amount };
@@ -84,11 +84,10 @@ export class BudgetService {
         this._budgetId = response.id;
         this._totalBudget.set(response.totalBudget);
       }),
-      map(() => undefined),
     );
   }
 
-  addExpense(expense: Omit<Expense, 'id'>): void {
+  addExpense(expense: Omit<Expense, 'id'>): Observable<ExpenseApiResponse> {
     const body = {
       category: expense.categoryId,
       itemName: expense.name,
@@ -100,22 +99,42 @@ export class BudgetService {
       budgetId: this._budgetId,
     };
 
-    this.http.post<ExpenseApiResponse>('http://localhost:3000/budget/expenses', body).pipe(
+    return this.http.post<ExpenseApiResponse>('http://localhost:3000/budget/expenses', body).pipe(
       tap(response => {
         console.log('[BudgetService] POST /budget/expenses:', response);
         this._expenses.update(expenses => [...expenses, this.mapExpense(response)]);
       }),
-    ).subscribe();
-  }
-
-  updateExpense(id: string, expense: Omit<Expense, 'id'>): void {
-    this._expenses.update(expenses =>
-      expenses.map(existing => (existing.id === id ? { ...expense, id } : existing)),
     );
   }
 
-  deleteExpense(id: string): void {
-    this._expenses.update(expenses => expenses.filter(expense => expense.id !== id));
+  updateExpense(id: string, expense: Omit<Expense, 'id'>): Observable<ExpenseApiResponse> {
+    const body = {
+      category: expense.categoryId,
+      itemName: expense.name,
+      vendorName: expense.vendor,
+      estimated: expense.estimatedCost,
+      actual: expense.actualCost,
+      isPaid: expense.paid,
+      notes: expense.notes,
+    };
+
+    return this.http.patch<ExpenseApiResponse>(`http://localhost:3000/budget/expenses/${id}`, body).pipe(
+      tap(response => {
+        console.log('[BudgetService] PATCH /budget/expenses/:id:', response);
+        this._expenses.update(expenses =>
+          expenses.map(existing => (existing.id === id ? this.mapExpense(response) : existing)),
+        );
+      }),
+    );
+  }
+
+  deleteExpense(id: string): Observable<void> {
+    return this.http.delete<void>(`http://localhost:3000/budget/expenses/${id}`).pipe(
+      tap(() => {
+        console.log('[BudgetService] DELETE /budget/expenses/:id:', id);
+        this._expenses.update(expenses => expenses.filter(expense => expense.id !== id));
+      }),
+    );
   }
 
   private mapExpense(response: ExpenseApiResponse): Expense {
