@@ -40,8 +40,7 @@ export class ExpenseFormComponent {
     categoryId: [this.data.expense?.categoryId ?? ('' as BudgetCategoryId), Validators.required],
     name: [this.data.expense?.name ?? '', Validators.required],
     vendor: [this.data.expense?.vendor ?? ''],
-    estimatedCost: [this.data.expense?.estimatedCost ?? 0, [Validators.required, Validators.min(0)]],
-    actualCost: [this.data.expense?.actualCost ?? null as number | null, Validators.min(0)],
+    cost: [this.data.expense?.cost ?? null as number | null, Validators.min(0)],
     paid: [this.data.expense?.paid ?? false],
     notes: [this.data.expense?.notes ?? ''],
   });
@@ -53,9 +52,8 @@ export class ExpenseFormComponent {
       categoryId: raw.categoryId,
       name: raw.name,
       vendor: raw.vendor ?? '',
-      estimatedCost: Number(raw.estimatedCost),
-      actualCost: raw.actualCost !== null && raw.actualCost !== undefined && raw.actualCost !== ('' as unknown as number)
-        ? Number(raw.actualCost)
+      cost: raw.cost !== null && raw.cost !== undefined && raw.cost !== ('' as unknown as number)
+        ? Number(raw.cost)
         : null,
       paid: raw.paid,
       notes: raw.notes ?? '',

@@ -28,7 +28,9 @@ export class GuestFilterService {
     });
   });
 
-  readonly totalGuests = computed(() => this.guestService.guests().length);
+  readonly totalGuests = computed(() =>
+    this.guestService.guests().reduce((total, guest) => total + (guest.plusOne ? 2 : 1), 0),
+  );
 
   readonly confirmedCount = computed(
     () => this.guestService.guests().filter(guest => guest.rsvpStatus === RsvpStatus.Confirmed).length,

@@ -57,7 +57,7 @@ export class BudgetComponent {
   protected readonly categories = BUDGET_CATEGORIES;
   protected readonly categoryFilter = signal<BudgetCategoryId | 'all'>('all');
 
-  protected readonly displayedColumns = ['category', 'name', 'vendor', 'estimatedCost', 'actualCost', 'paid', 'actions'];
+  protected readonly displayedColumns = ['category', 'name', 'vendor', 'cost', 'paid', 'actions'];
 
   protected readonly categoryMap = new Map<BudgetCategoryId, BudgetCategory>(
     BUDGET_CATEGORIES.map(category => [category.id, category]),

@@ -9,7 +9,6 @@ interface ExpenseApiResponse {
   category: BudgetCategoryId;
   itemName: string;
   vendorName: string;
-  estimated: number;
   actual: number | null;
   isPaid: boolean;
   notes?: string;
@@ -33,26 +32,17 @@ export class BudgetService {
   readonly totalBudget = this._totalBudget.asReadonly();
   readonly expenses = this._expenses.asReadonly();
 
-  readonly totalEstimated = computed(() =>
-    this._expenses().reduce((sum, expense) => sum + expense.estimatedCost, 0),
-  );
-
-  readonly totalActual = computed(() =>
-    this._expenses().reduce((sum, expense) => sum + (expense.actualCost ?? 0), 0),
+  readonly totalCost = computed(() =>
+    this._expenses().reduce((sum, expense) => sum + (expense.cost ?? 0), 0),
   );
 
   readonly totalPaid = computed(() =>
     this._expenses()
       .filter(expense => expense.paid)
-      .reduce((sum, expense) => sum + (expense.actualCost ?? 0), 0),
+      .reduce((sum, expense) => sum + (expense.cost ?? 0), 0),
   );
 
-  readonly remaining = computed(() => {
-    const budget = this._totalBudget();
-    const actual = this.totalActual();
-    const estimated = this.totalEstimated();
-    return actual > 0 ? budget - actual : budget - estimated;
-  });
+  readonly remaining = computed(() => this._totalBudget() - this.totalCost());
 
   ensureBudget(): Observable<BudgetApiResponse | object> {
     if (this._loaded) return of({});
@@ -92,8 +82,7 @@ export class BudgetService {
       category: expense.categoryId,
       itemName: expense.name,
       vendorName: expense.vendor,
-      estimated: expense.estimatedCost,
-      actual: expense.actualCost,
+      actual: expense.cost,
       isPaid: expense.paid,
       notes: expense.notes,
       budgetId: this._budgetId,
@@ -112,8 +101,7 @@ export class BudgetService {
       category: expense.categoryId,
       itemName: expense.name,
       vendorName: expense.vendor,
-      estimated: expense.estimatedCost,
-      actual: expense.actualCost,
+      actual: expense.cost,
       isPaid: expense.paid,
       notes: expense.notes,
     };
@@ -143,8 +131,7 @@ export class BudgetService {
       categoryId: response.category,
       name: response.itemName,
       vendor: response.vendorName ?? '',
-      estimatedCost: response.estimated,
-      actualCost: response.actual,
+      cost: response.actual,
       paid: response.isPaid,
       notes: response.notes ?? '',
     };

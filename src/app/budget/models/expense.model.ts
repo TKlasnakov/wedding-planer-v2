@@ -5,8 +5,7 @@ export interface Expense {
   categoryId: BudgetCategoryId;
   name: string;
   vendor: string;
-  estimatedCost: number;
-  actualCost: number | null;
+  cost: number | null;
   paid: boolean;
   notes: string;
 }

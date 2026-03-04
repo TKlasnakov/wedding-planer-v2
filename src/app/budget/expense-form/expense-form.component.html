@@ -20,17 +20,10 @@
       <input matInput formControlName="vendor" placeholder="e.g. Sound Events Ltd." />
     </mat-form-field>
 
-    <div class="cost-row">
-      <mat-form-field appearance="outline">
-        <mat-label>Estimated Cost (€)</mat-label>
-        <input matInput type="number" formControlName="estimatedCost" min="0" />
-      </mat-form-field>
-
-      <mat-form-field appearance="outline">
-        <mat-label>Actual Cost (€)</mat-label>
-        <input matInput type="number" formControlName="actualCost" min="0" placeholder="Leave blank if unknown" />
-      </mat-form-field>
-    </div>
+    <mat-form-field appearance="outline">
+      <mat-label>Cost (€)</mat-label>
+      <input matInput type="number" formControlName="cost" min="0" placeholder="Leave blank if unknown" />
+    </mat-form-field>
 
     <mat-checkbox formControlName="paid">Paid</mat-checkbox>
 
