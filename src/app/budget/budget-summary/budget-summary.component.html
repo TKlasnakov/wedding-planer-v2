@@ -1,0 +1,29 @@
+<div class="stats-row">
+  <app-stat-card
+    [value]="budgetService.totalBudget()"
+    label="Total Budget"
+    borderColor="#c2185b"
+    currencyCode="EUR"
+    actionIcon="edit"
+    actionTooltip="Set budget"
+    (actionClick)="openSetBudget()"
+  />
+  <app-stat-card
+    [value]="budgetService.totalCost()"
+    label="Total Cost"
+    borderColor="#ef6c00"
+    currencyCode="EUR"
+  />
+  <app-stat-card
+    [value]="budgetService.totalPaid()"
+    label="Paid"
+    borderColor="#2e7d32"
+    currencyCode="EUR"
+  />
+  <app-stat-card
+    [value]="budgetService.remaining()"
+    [label]="budgetService.remaining() >= 0 ? 'Remaining' : 'Over Budget'"
+    [borderColor]="budgetService.remaining() >= 0 ? '#2e7d32' : '#c62828'"
+    currencyCode="EUR"
+  />
+</div>

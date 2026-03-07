@@ -1,0 +1,7 @@
+<div class="stats-row">
+  <app-stat-card [value]="filterService.totalGuests()" label="Total Guests" (cardClick)="onStatusChange('all')" />
+  <app-stat-card [value]="filterService.confirmedCount()" label="Confirmed" borderColor="#4caf50" (cardClick)="onStatusChange('confirmed')" />
+  <app-stat-card [value]="filterService.pendingCount()" label="Pending" borderColor="#ff9800" (cardClick)="onStatusChange('pending')" />
+  <app-stat-card [value]="filterService.declinedCount()" label="Declined" borderColor="#f44336" (cardClick)="onStatusChange('declined')" />
+  <app-stat-card [value]="filterService.totalAttendees()" label="Total Attendees" borderColor="#9c27b0" (cardClick)="onStatusChange('confirmed')" />
+</div>

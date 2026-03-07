@@ -1,21 +1,3 @@
-// Stats
-.stats-row {
-  display: grid;
-  grid-template-columns: repeat(4, 1fr);
-  gap: 16px;
-  margin-bottom: 24px;
-
-  @media (max-width: 900px) {
-    grid-template-columns: repeat(3, 1fr);
-  }
-
-  @media (max-width: 560px) {
-    grid-template-columns: repeat(2, 1fr);
-  }
-}
-
-
-// Table card
 .table-card {
   mat-card-header {
     display: flex;
@@ -42,7 +24,6 @@
   width: 180px;
 }
 
-// Table
 .table-wrapper {
   overflow-x: auto;
 }
@@ -63,7 +44,6 @@ table {
   font-weight: 500;
 }
 
-// Category chip
 .category-chip {
   display: inline-block;
   padding: 3px 10px;
@@ -74,7 +54,6 @@ table {
   white-space: nowrap;
 }
 
-// Paid icon
 .paid-yes {
   color: #2e7d32;
   vertical-align: middle;
@@ -84,12 +63,10 @@ table {
   color: #bdbdbd;
 }
 
-// Actions
 .actions-cell {
   white-space: nowrap;
 }
 
-// No data
 .no-data-cell {
   text-align: center;
   padding: 48px 16px;
