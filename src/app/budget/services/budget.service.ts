@@ -1,28 +1,15 @@
 import { Injectable, computed, inject, signal } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable, of, tap } from 'rxjs';
-import { BudgetCategoryId } from '../models/budget-category-id.model';
 import { Expense } from '../models/expense.model';
-
-interface ExpenseApiResponse {
-  id: string;
-  category: BudgetCategoryId;
-  itemName: string;
-  vendorName: string;
-  actual: number | null;
-  isPaid: boolean;
-  notes?: string;
-}
-
-interface BudgetApiResponse {
-  id: string;
-  totalBudget: number;
-  expenses: ExpenseApiResponse[];
-}
+import { BudgetApiResponse } from '../models/budget-api-response.model';
+import { ExpenseApiResponse } from '../models/expense-api-response.model';
+import { environment } from '../../../environments/environment';
 
 @Injectable({ providedIn: 'root' })
 export class BudgetService {
   private readonly http = inject(HttpClient);
+  private readonly budgetUrl = `${environment.apiUrl}/budget`;
   private _loaded = false;
   private _budgetId: string | null = null;
 
@@ -50,7 +37,7 @@ export class BudgetService {
   }
 
   private fetchBudget(): Observable<BudgetApiResponse | object> {
-    return this.http.get<BudgetApiResponse | object>('http://localhost:3000/budget').pipe(
+    return this.http.get<BudgetApiResponse | object>(this.budgetUrl).pipe(
       tap(response => {
         console.log('[BudgetService] GET /budget:', response);
         this._loaded = true;
@@ -68,7 +55,7 @@ export class BudgetService {
       ? { id: this._budgetId, totalBudget: amount }
       : { totalBudget: amount };
 
-    return this.http.post<BudgetApiResponse>('http://localhost:3000/budget', body).pipe(
+    return this.http.post<BudgetApiResponse>(this.budgetUrl, body).pipe(
       tap(response => {
         console.log('[BudgetService] POST /budget:', response);
         this._budgetId = response.id;
@@ -88,7 +75,7 @@ export class BudgetService {
       budgetId: this._budgetId,
     };
 
-    return this.http.post<ExpenseApiResponse>('http://localhost:3000/budget/expenses', body).pipe(
+    return this.http.post<ExpenseApiResponse>(`${this.budgetUrl}/expenses`, body).pipe(
       tap(response => {
         console.log('[BudgetService] POST /budget/expenses:', response);
         this._expenses.update(expenses => [...expenses, this.mapExpense(response)]);
@@ -106,7 +93,7 @@ export class BudgetService {
       notes: expense.notes,
     };
 
-    return this.http.patch<ExpenseApiResponse>(`http://localhost:3000/budget/expenses/${id}`, body).pipe(
+    return this.http.patch<ExpenseApiResponse>(`${this.budgetUrl}/expenses/${id}`, body).pipe(
       tap(response => {
         console.log('[BudgetService] PATCH /budget/expenses/:id:', response);
         this._expenses.update(expenses =>
@@ -117,7 +104,7 @@ export class BudgetService {
   }
 
   deleteExpense(id: string): Observable<void> {
-    return this.http.delete<void>(`http://localhost:3000/budget/expenses/${id}`).pipe(
+    return this.http.delete<void>(`${this.budgetUrl}/expenses/${id}`).pipe(
       tap(() => {
         console.log('[BudgetService] DELETE /budget/expenses/:id:', id);
         this._expenses.update(expenses => expenses.filter(expense => expense.id !== id));
