@@ -17,8 +17,8 @@ export class App {
 
   protected readonly isRsvpRoute = toSignal(
     this.router.events.pipe(
-      filter(event => event instanceof NavigationEnd),
-      map(event => event.urlAfterRedirects.startsWith('/rsvp/')),
+      filter((event) => event instanceof NavigationEnd),
+      map((event) => event.urlAfterRedirects.startsWith('/rsvp/')),
     ),
     { initialValue: this.router.url.startsWith('/rsvp/') },
   );

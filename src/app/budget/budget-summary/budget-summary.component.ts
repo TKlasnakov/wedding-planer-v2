@@ -3,7 +3,10 @@ import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
 import { filter, switchMap } from 'rxjs';
 import { MatDialog, MatDialogModule } from '@angular/material/dialog';
 import { BudgetService } from '../services/budget.service';
-import { SetBudgetDialogComponent, SetBudgetDialogData } from '../set-budget-dialog/set-budget-dialog.component';
+import {
+  SetBudgetDialogComponent,
+  SetBudgetDialogData,
+} from '../set-budget-dialog/set-budget-dialog.component';
 import { StatCardComponent } from '../../shared/stat-card/stat-card.component';
 
 @Component({
@@ -30,8 +33,8 @@ export class BudgetSummaryComponent {
       })
       .afterClosed()
       .pipe(
-        filter(amount => amount != null),
-        switchMap(amount => this.budgetService.setTotalBudget(amount)),
+        filter((amount) => amount != null),
+        switchMap((amount) => this.budgetService.setTotalBudget(amount)),
       )
       .subscribe();
   }
