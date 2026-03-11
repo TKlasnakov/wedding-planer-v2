@@ -106,7 +106,8 @@ export class RsvpPageComponent implements OnInit {
       tableId: guest.tableId,
     };
 
-    this.guestService.updateGuest(this.guestId, updated);
-    this.submitted.set(true);
+    this.guestService.updateGuest(this.guestId, updated).subscribe(() => {
+      this.submitted.set(true);
+    });
   }
 }

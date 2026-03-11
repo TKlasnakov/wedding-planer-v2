@@ -1,6 +1,6 @@
 import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
 import { toSignal } from '@angular/core/rxjs-interop';
-import { NavigationEnd, Router, RouterLink, RouterLinkActive, RouterOutlet } from '@angular/router';
+import { NavigationEnd, NavigationStart, Router, RouterLink, RouterLinkActive, RouterOutlet } from '@angular/router';
 import { MatToolbarModule } from '@angular/material/toolbar';
 import { MatIconModule } from '@angular/material/icon';
 import { filter, map } from 'rxjs';
@@ -17,9 +17,12 @@ export class App {
 
   protected readonly isRsvpRoute = toSignal(
     this.router.events.pipe(
-      filter((event) => event instanceof NavigationEnd),
-      map((event) => event.urlAfterRedirects.startsWith('/rsvp/')),
+      filter((event) => event instanceof NavigationStart || event instanceof NavigationEnd),
+      map((event) => {
+        const url = event instanceof NavigationEnd ? event.urlAfterRedirects : event.url;
+        return url.startsWith('/rsvp/');
+      }),
     ),
-    { initialValue: this.router.url.startsWith('/rsvp/') },
+    { initialValue: window.location.pathname.startsWith('/rsvp/') },
   );
 }
