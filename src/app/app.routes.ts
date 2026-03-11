@@ -31,6 +31,7 @@ export const routes: Routes = [
     path: 'rsvp/:id',
     loadComponent: () =>
       import('./rsvp/rsvp-page.component').then(m => m.RsvpPageComponent),
+    resolve: { guests: guestsResolver },
   },
   {
     path: '**',
