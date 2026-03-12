@@ -1,0 +1,17 @@
+<div class="login-container">
+  <mat-icon class="login-heart">favorite</mat-icon>
+  <h1>Wedding Planner</h1>
+
+  <form (ngSubmit)="submit()">
+    <mat-form-field appearance="outline">
+      <mat-label>Password</mat-label>
+      <input matInput type="password" [(ngModel)]="password" name="password" required />
+    </mat-form-field>
+
+    @if (error()) {
+      <p class="error">Incorrect password. Please try again.</p>
+    }
+
+    <button mat-flat-button type="submit">Enter</button>
+  </form>
+</div>

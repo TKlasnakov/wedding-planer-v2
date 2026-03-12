@@ -15,14 +15,14 @@ import { filter, map } from 'rxjs';
 export class App {
   private readonly router = inject(Router);
 
-  protected readonly isRsvpRoute = toSignal(
+  protected readonly isShelllessRoute = toSignal(
     this.router.events.pipe(
       filter((event) => event instanceof NavigationStart || event instanceof NavigationEnd),
       map((event) => {
         const url = event instanceof NavigationEnd ? event.urlAfterRedirects : event.url;
-        return url.startsWith('/rsvp/');
+        return url.startsWith('/rsvp/') || url.startsWith('/login');
       }),
     ),
-    { initialValue: window.location.pathname.startsWith('/rsvp/') },
+    { initialValue: window.location.pathname.startsWith('/rsvp/') || window.location.pathname.startsWith('/login') },
   );
 }
