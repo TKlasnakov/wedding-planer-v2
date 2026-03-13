@@ -39,7 +39,6 @@ export class BudgetService {
   private fetchBudget(): Observable<BudgetApiResponse | object> {
     return this.http.get<BudgetApiResponse | object>(this.budgetUrl).pipe(
       tap(response => {
-        console.log('[BudgetService] GET /budget:', response);
         this._loaded = true;
         if ('id' in response) {
           this._budgetId = response.id;
@@ -57,7 +56,6 @@ export class BudgetService {
 
     return this.http.post<BudgetApiResponse>(this.budgetUrl, body).pipe(
       tap(response => {
-        console.log('[BudgetService] POST /budget:', response);
         this._budgetId = response.id;
         this._totalBudget.set(response.totalBudget);
       }),
@@ -78,7 +76,6 @@ export class BudgetService {
 
     return this.http.post<ExpenseApiResponse>(`${this.budgetUrl}/expenses`, body).pipe(
       tap(response => {
-        console.log('[BudgetService] POST /budget/expenses:', response);
         this._expenses.update(expenses => [...expenses, this.mapExpense(response)]);
       }),
     );
@@ -97,7 +94,6 @@ export class BudgetService {
 
     return this.http.patch<ExpenseApiResponse>(`${this.budgetUrl}/expenses/${id}`, body).pipe(
       tap(response => {
-        console.log('[BudgetService] PATCH /budget/expenses/:id:', response);
         this._expenses.update(expenses =>
           expenses.map(existing => (existing.id === id ? this.mapExpense(response) : existing)),
         );
@@ -108,7 +104,6 @@ export class BudgetService {
   deleteExpense(id: string): Observable<void> {
     return this.http.delete<void>(`${this.budgetUrl}/expenses/${id}`).pipe(
       tap(() => {
-        console.log('[BudgetService] DELETE /budget/expenses/:id:', id);
         this._expenses.update(expenses => expenses.filter(expense => expense.id !== id));
       }),
     );
