@@ -1,44 +1,32 @@
 import {
   ChangeDetectionStrategy,
   Component,
-  OnInit,
   computed,
   inject,
   signal,
 } from '@angular/core';
-import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
 import { MatButtonModule } from '@angular/material/button';
-import { MatCheckboxModule } from '@angular/material/checkbox';
-import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatDialog } from '@angular/material/dialog';
 import { MatIconModule } from '@angular/material/icon';
-import { MatInputModule } from '@angular/material/input';
-import { MatSelectModule } from '@angular/material/select';
+import { filter } from 'rxjs';
 import { GuestService } from '../guests/services/guest.service';
-import { Guest } from '../guests/models/guest.model';
-import { DietaryRestriction } from '../guests/models/dietary-restriction.model';
-import { RsvpStatus } from '../guests/models/rsvp-status.model';
-import { DIETARY_OPTIONS, RSVP_OPTIONS } from '../guests/guest-form/guest-form.constants';
+import { RsvpFormDialogComponent } from './rsvp-form-dialog/rsvp-form-dialog.component';
 
 @Component({
   selector: 'app-rsvp-page',
   changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [
-    ReactiveFormsModule,
     MatButtonModule,
-    MatCheckboxModule,
-    MatFormFieldModule,
     MatIconModule,
-    MatInputModule,
-    MatSelectModule,
   ],
   templateUrl: './rsvp-page.component.html',
   styleUrl: './rsvp-page.component.scss',
 })
-export class RsvpPageComponent implements OnInit {
+export class RsvpPageComponent {
   private readonly guestService = inject(GuestService);
   private readonly route = inject(ActivatedRoute);
-  private readonly fb = inject(FormBuilder);
+  private readonly dialog = inject(MatDialog);
 
   private readonly guestId = this.route.snapshot.paramMap.get('id') ?? '';
 
@@ -47,67 +35,31 @@ export class RsvpPageComponent implements OnInit {
   );
 
   protected readonly submitted = signal(false);
-  protected readonly showPlusOneName = signal(false);
 
-  protected readonly rsvpOptions = RSVP_OPTIONS;
-  protected readonly dietaryOptions = DIETARY_OPTIONS;
+  // Wedding details — update these for the actual event
+  protected readonly weddingDate = 'September 18, 2026';
+  protected readonly schedule = [
+    { icon: 'wine_bar',    label: 'Welcome',  time: '16:30' },
+    { icon: 'favorite',    label: 'Ceremony', time: '17:00' },
+    { icon: 'restaurant',  label: 'Dinner',   time: 'When it starts, it starts' },
+  ];
+  protected readonly venueName = 'Utopia Forrest, Burgas';
+  protected readonly venueMapUrl = 'https://maps.google.com/?q=Utopia+Forrest+Burgas';
 
-  protected readonly form = this.fb.group({
-    firstName: ['', [Validators.required, Validators.minLength(2)]],
-    lastName: ['', [Validators.required, Validators.minLength(2)]],
-    email: ['', [Validators.email]],
-    phone: [''],
-    rsvpStatus: [RsvpStatus.Pending, Validators.required],
-    dietaryRestriction: [<DietaryRestriction>'none', Validators.required],
-    allergies: [''],
-    kidsUnder14: [0, [Validators.min(0)]],
-    notes: [''],
-    plusOne: [false],
-    plusOneName: [''],
-  });
-
-  ngOnInit(): void {
-    const guest = this.guest();
-    if (guest) {
-      this.form.patchValue(guest);
-      this.showPlusOneName.set(guest.plusOne);
-    }
-
-    this.form.controls.plusOne.valueChanges.subscribe(hasPlusOne => {
-      this.showPlusOneName.set(!!hasPlusOne);
-      if (!hasPlusOne) {
-        this.form.controls.plusOneName.setValue('');
-      }
-    });
-  }
-
-  protected submit(): void {
-    if (this.form.invalid) {
-      this.form.markAllAsTouched();
-      return;
-    }
-
+  protected openRsvpDialog(): void {
     const guest = this.guest();
     if (!guest) return;
 
-    const { plusOne, plusOneName, kidsUnder14, ...rest } = this.form.getRawValue();
-    const updated: Omit<Guest, 'id'> = {
-      firstName: rest.firstName ?? '',
-      lastName: rest.lastName ?? '',
-      email: rest.email ?? '',
-      phone: rest.phone ?? '',
-      rsvpStatus: rest.rsvpStatus ?? RsvpStatus.Pending,
-      dietaryRestriction: rest.dietaryRestriction ?? 'none',
-      allergies: rest.allergies ?? '',
-      kidsUnder14: Number(kidsUnder14) || 0,
-      notes: rest.notes ?? '',
-      plusOne: !!plusOne,
-      plusOneName: plusOne && plusOneName ? plusOneName : undefined,
-      tableId: guest.tableId,
-    };
-
-    this.guestService.updateGuest(this.guestId, updated).subscribe(() => {
-      this.submitted.set(true);
-    });
+    this.dialog
+      .open(RsvpFormDialogComponent, {
+        data: guest,
+        maxWidth: '680px',
+        width: '100%',
+      })
+      .afterClosed()
+      .pipe(filter(result => result === true))
+      .subscribe(() => {
+        this.submitted.set(true);
+      });
   }
 }
