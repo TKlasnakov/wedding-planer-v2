@@ -69,9 +69,13 @@
     <!-- Success state -->
     @if (guest() && submitted()) {
       <div class="rsvp-action success">
-        <mat-icon class="state-icon green">check_circle</mat-icon>
         <h2>Thank you, {{ guest()!.firstName }}!</h2>
-        <p>Your response has been saved. We can't wait to celebrate this special day with you!</p>
+        @if (guest()!.rsvpStatus === RsvpStatus.Confirmed) {
+          <p>We can't wait to celebrate this special day with you!</p>
+        } @else {
+          <p>We're sad to hear you can't make it.<br>Thank you for letting us know!</p>
+        }
+        <p>And remember to always live by this words -<br><span class="loktar">Lok'tar Ogar</span></p>
       </div>
     }
 
@@ -88,6 +92,10 @@
       </div>
     }
   </div>
+
+  @if (guest() && submitted() && guest()!.rsvpStatus === RsvpStatus.Confirmed) {
+    <p class="save-link-note">* Save this link — you can always come back to find the wedding details.</p>
+  }
 
   <div class="rsvp-footer">
     <mat-icon>favorite</mat-icon>

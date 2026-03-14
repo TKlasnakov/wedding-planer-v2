@@ -61,7 +61,7 @@
   display: flex;
   align-items: center;
   gap: 12px;
-  margin: 8px 0 32px;
+  margin: 8px 0 8px;
   color: #e91e63;
 
   &:first-child {
@@ -147,6 +147,19 @@
   }
 }
 
+.loktar {
+  font-family: 'Cinzel Decorative', serif;
+  font-weight: 700;
+  color: #6d2c0e;
+}
+
+.save-link-note {
+  font-size: 0.8rem;
+  color: #aaa;
+  margin: 12px 0 0;
+  font-style: italic;
+}
+
 // RSVP action area
 .rsvp-action {
   padding-top: 8px;
@@ -187,10 +200,6 @@
 
   &.muted {
     color: #bdbdbd;
-  }
-
-  &.green {
-    color: #2e7d32;
   }
 }
 

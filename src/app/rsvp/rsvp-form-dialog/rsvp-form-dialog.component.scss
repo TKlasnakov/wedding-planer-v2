@@ -1,0 +1,49 @@
+.dialog-title-icon {
+  vertical-align: middle;
+  margin-right: 8px;
+  color: #c2185b;
+  font-size: 20px;
+  width: 20px;
+  height: 20px;
+}
+
+.form-intro {
+  color: #666;
+  margin: 0 0 16px;
+}
+
+.rsvp-form {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  min-width: 560px;
+
+  @media (max-width: 600px) {
+    min-width: unset;
+  }
+}
+
+.form-row {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 16px;
+
+  mat-form-field {
+    width: 100%;
+  }
+
+  @media (max-width: 520px) {
+    grid-template-columns: 1fr;
+  }
+}
+
+.full-width {
+  width: 100%;
+}
+
+.plus-one-section {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  margin-bottom: 4px;
+}

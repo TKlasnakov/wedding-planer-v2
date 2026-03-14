@@ -11,6 +11,7 @@ import { MatDialog } from '@angular/material/dialog';
 import { MatIconModule } from '@angular/material/icon';
 import { filter } from 'rxjs';
 import { GuestService } from '../guests/services/guest.service';
+import { RsvpStatus } from '../guests/models/rsvp-status.model';
 import { RsvpFormDialogComponent } from './rsvp-form-dialog/rsvp-form-dialog.component';
 
 @Component({
@@ -35,6 +36,7 @@ export class RsvpPageComponent {
   );
 
   protected readonly submitted = signal(false);
+  protected readonly RsvpStatus = RsvpStatus;
 
   // Wedding details — update these for the actual event
   protected readonly weddingDate = 'September 18, 2026';
