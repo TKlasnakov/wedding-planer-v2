@@ -1,0 +1,20 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32">
+  <!-- Dark orcish background -->
+  <rect width="32" height="32" rx="5" fill="#1a0500"/>
+
+  <!-- Handle shaft -->
+  <line x1="5" y1="28" x2="22" y2="11" stroke="#8b5a2b" stroke-width="2.5" stroke-linecap="round"/>
+
+  <!-- Handle grip wrap -->
+  <line x1="9" y1="24" x2="12" y2="21" stroke="#5c3010" stroke-width="1.5" stroke-linecap="round"/>
+  <line x1="12" y1="21" x2="15" y2="18" stroke="#5c3010" stroke-width="1.5" stroke-linecap="round"/>
+
+  <!-- Main crescent blade -->
+  <path d="M22 11 C25 4 32 5 31 14 C30 20 24 23 21 17 C25 15 27 8 22 11Z" fill="#c0c0c0" stroke="#888" stroke-width="0.5"/>
+
+  <!-- Blade edge highlight -->
+  <path d="M31 14 C30 20 24 23 21 17 C24 16 27 20 31 14Z" fill="#e8e8e8" opacity="0.5"/>
+
+  <!-- Back spike -->
+  <path d="M22 11 C17 8 14 13 19 15 Z" fill="#c0c0c0" stroke="#888" stroke-width="0.5"/>
+</svg>
