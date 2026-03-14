@@ -33,7 +33,7 @@ export class TablesComponent {
     for (const table of this.tables()) {
       map.set(table.id, []);
     }
-    for (const guest of this.guestService.guests().filter(guest => guest.rsvpStatus !== RsvpStatus.Declined)) {
+    for (const guest of this.guestService.guests().filter(guest => guest.rsvpStatus === RsvpStatus.Confirmed)) {
       const key = guest.tableId != null && map.has(guest.tableId) ? guest.tableId : null;
       map.get(key)!.push(guest);
     }
